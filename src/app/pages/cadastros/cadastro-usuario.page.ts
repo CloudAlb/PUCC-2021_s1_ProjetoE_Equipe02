@@ -16,6 +16,20 @@ export class CadastroUsuarioPage implements OnInit {
     data_nascimento:''
   };
 
+<<<<<<< HEAD:src/app/cadastros/cadastro-usuario.page.ts
+=======
+  public maxDate = new Date
+
+  /*
+  public today = new Date();
+  public dd = String(this.today.getDate()).padStart(2, '0');
+  public mm = String(this.today.getMonth() + 1).padStart(2, '0');
+  public yyyy = this.today.getFullYear();
+
+  public todayFormattedDate = this.dd + '/' + this.mm + '/' + this.yyyy;
+  */
+
+>>>>>>> b4955d4f6f66bca5563c0042c63c7ab4ed012734:src/app/pages/cadastros/cadastro-usuario.page.ts
   public fGroup: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute,
