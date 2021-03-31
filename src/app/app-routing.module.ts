@@ -8,9 +8,23 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
+  },
+  {
+    path: 'seu-perfil',
+    loadChildren: () => import('./pages/seu-perfil/seu-perfil.module').then(m => m.SeuPerfilPageModule)
+  },
+  {
+    path: 'editar-perfil',
+    loadChildren: () => import('./pages/editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
+  },
+  // TODO, conflito
+  /*
+  {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
+  },*/
   {
     path: 'cadastro-usuario',
     loadChildren: () => import('./cadastros/cadastro-usuario.module').then( m => m.CadastroUsuarioPageModule)
@@ -34,4 +48,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

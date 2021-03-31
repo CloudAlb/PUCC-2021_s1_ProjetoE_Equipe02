@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Seu perfil</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- botão de ações -->
+  <!-- TODO, pode ser transformado em componente e só ser exibido se for o usuário visualizando o próprio perfil -->
+  <ion-fab *ngIf=user vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="dark" [routerLink]="['/editar-perfil']">
+      <ion-icon name="create-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div class="imagens">
+    <img src={{backgroundPath}} alt="Background" class="background">
+    <img src={{avatarPath}} alt="Avatar" class="avatar" />
+  </div>
+
+  <div class="informacoes" *ngIf="user">
+    <ion-grid>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>@{{user.data.username}}</ion-card-subtitle>
+          <ion-card-title>{{user.data.name}}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+
+      <ion-row>
+        <ion-col>
+          <ion-card class="nivel">
+            <ion-card-header>
+              <ion-card-subtitle>Nível</ion-card-subtitle>
+              <ion-card-title>{{user.data.nivel}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card class="moedas">
+            <ion-card-header>
+              <ion-card-subtitle>Moedas</ion-card-subtitle>
+              <ion-card-title>{{user.data.moedas}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
+        <ion-col>
+          <ion-card class="amigos">
+            <ion-card-header>
+              <ion-card-subtitle>Amigos</ion-card-subtitle>
+              <ion-card-title>{{user.data.amigos}}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="bio" *ngIf="user.data.bio">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Bio</ion-card-subtitle>
+          <ion-card-title class="bio_text">{{user.data.bio}}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </div>
+
+    <div class="socials" *ngIf="socials.length > 0">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Redes sociais</ion-card-subtitle>
+          <ion-card-title>
+
+            <!--
+              TODO, transformar em componente
+              assim é mais fácil de replicar, usando um vetor de objetos
+              onde o objeto conteria "social, username" e preencheria
+              automaticamente usando o ng-for
+            -->
+
+              <app-social-card *ngFor="let social of socials" [social]="social.social" [username]="social.username"></app-social-card>
+
+
+          </ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </div>
+
+  </div>
+
+</ion-content>
