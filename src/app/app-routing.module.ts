@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/Inbox',
+    redirectTo: 'login-usuario',
     pathMatch: 'full'
   },
   {
@@ -14,7 +14,17 @@ const routes: Routes = [
   {
     path: 'cadastro-usuario',
     loadChildren: () => import('./cadastros/cadastro-usuario.module').then( m => m.CadastroUsuarioPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'login-usuario',
+    loadChildren: () => import('./login/login-usuario/login-usuario.module').then( m => m.LoginUsuarioPageModule)
   }
+
+
 
 ];
 

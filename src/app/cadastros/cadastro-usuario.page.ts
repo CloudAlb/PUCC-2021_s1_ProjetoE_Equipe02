@@ -16,8 +16,6 @@ export class CadastroUsuarioPage implements OnInit {
     data_nascimento:''
   };
 
-  public maxDate = new Date
-
   public fGroup: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute,
