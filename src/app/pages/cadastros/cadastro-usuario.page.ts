@@ -18,6 +18,15 @@ export class CadastroUsuarioPage implements OnInit {
 
   public maxDate = new Date
 
+  /*
+  public today = new Date();
+  public dd = String(this.today.getDate()).padStart(2, '0');
+  public mm = String(this.today.getMonth() + 1).padStart(2, '0');
+  public yyyy = this.today.getFullYear();
+
+  public todayFormattedDate = this.dd + '/' + this.mm + '/' + this.yyyy;
+  */
+
   public fGroup: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute,

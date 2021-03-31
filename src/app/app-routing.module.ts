@@ -17,18 +17,11 @@ const routes: Routes = [
   },
   {
     path: 'editar-perfil',
-    loadChildren: () => import('./pages/editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
+    loadChildren: () => import('./pages/editar-perfil/editar-perfil.module').then(m => m.EditarPerfilPageModule)
   },
-  // TODO, conflito
-  /*
-  {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
-  */
   {
     path: 'cadastro-usuario',
-    loadChildren: () => import('./cadastros/cadastro-usuario.module').then( m => m.CadastroUsuarioPageModule)
+    loadChildren: () => import('./pages/cadastros/cadastro-usuario.module').then(m => m.CadastroUsuarioPageModule)
   }
 
 ];
