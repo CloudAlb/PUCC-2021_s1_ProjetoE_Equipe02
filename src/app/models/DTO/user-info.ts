@@ -3,18 +3,17 @@ export interface UserInfo {
     name: string,
     username: string,
     email: string,
-    bio: string;
+    birth_date: string;
 
     avatarImage: string;
     backgroundImage: string;
 
-    socials: {
-      telegram?: string;
-      facebook?: string;
-      twitter?: string;
-      twitch?: string;
-    }
+    bio: string;
+    level: string;
+    coins: string;
+    friends: string;
   }
 
+  error?: string;
   message?: string;
 }

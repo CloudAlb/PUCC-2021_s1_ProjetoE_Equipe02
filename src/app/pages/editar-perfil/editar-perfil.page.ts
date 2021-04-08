@@ -26,6 +26,7 @@ export class EditarPerfilPage implements OnInit {
   private username = "";
   private bio = "";
   private email = "";
+  private birth_date = "";
 
   private telegram = "";
   private facebook = "";
@@ -47,6 +48,7 @@ export class EditarPerfilPage implements OnInit {
 
   ngOnInit() {
     this.loadUserEditInfo();
+    this.loadUserSocialEditInfo();
   }
 
 
@@ -61,19 +63,39 @@ export class EditarPerfilPage implements OnInit {
       this.username = response.data.username;
       if (response.data.bio) this.bio = response.data.bio;
       this.email = response.data.email;
-
-      response.data.socials.telegram ? this.placeholder_telegram = "Sair como " + response.data.socials.telegram : this.placeholder_telegram = "Entrar com Telegram";
-      response.data.socials.facebook ? this.placeholder_facebook = "Sair como " + response.data.socials.facebook : this.placeholder_facebook = "Entrar com Facebook";
-      response.data.socials.twitter ? this.placeholder_twitter = "Sair como " + response.data.socials.twitter : this.placeholder_twitter = "Entrar com Twitter";
-      response.data.socials.twitch ? this.placeholder_twitch = "Sair como " + response.data.socials.twitch : this.placeholder_twitch = "Entrar com Twitch";
+      this.birth_date = response.data.birth_date;
     });
+  };
+
+  loadUserSocialEditInfo() {
+    this.seuPerfilService.getUserSocial().subscribe((response) => {
+      if (response.data.telegram) {
+        this.placeholder_telegram = "Sair como " + response.data.telegram;
+        this.telegram = response.data.telegram;
+      } else this.placeholder_telegram = "Entrar com Telegram";
+
+      if (response.data.facebook) {
+        this.placeholder_facebook = "Sair como " + response.data.facebook;
+        this.facebook = response.data.facebook;
+      } else this.placeholder_facebook = "Entrar com Facebook";
+
+      if (response.data.twitter) {
+        this.placeholder_twitter = "Sair como " + response.data.twitter;
+        this.twitter = response.data.twitter;
+      } else this.placeholder_twitter = "Entrar com Twitter";
+
+      if (response.data.twitch) {
+        this.placeholder_twitch = "Sair como " + response.data.twitch;
+        this.twitch = response.data.twitch;
+      } else this.placeholder_twitch = "Entrar com Twitch";
+    })
   }
 
   async editUserInfo() {
     this.ionAlertService.presentAlertMultipleButtons("Aviso", "Confirmar alterações?", [{
       text: "Sim",
       handler: () => {
-        this.seuPerfilService.editUser({ name: this.name, username: this.username, bio: this.bio, email: this.email }).subscribe(async (data) => {
+        this.seuPerfilService.editUser({ name: this.name, username: this.username, bio: this.bio, email: this.email, birth_date: this.birth_date }).subscribe(async (data) => {
           await this.ionToastService.presentToast(data.message);
         });
       },
@@ -84,10 +106,100 @@ export class EditarPerfilPage implements OnInit {
   }
 
   // TODO, ajeitar
-  editUserSocialInfo() {
-    this.seuPerfilService.editUserSocialInfo({ telegram: this.telegram, facebook: this.facebook, twitter: this.twitter, twitch: this.twitch }).subscribe(async (data) => {
-      await this.ionToastService.presentToast(data.message);
-    });
+  async editUserSocialInfo(social: string, username: string) {
+    if (username) { // se está logado e quer alterar ou apagar
+      this.ionAlertService.presentAlertPrompt("Alterar contato do " + social, [{
+        name: "username",
+        value: username,
+        type: "text"
+      }],
+        [{
+          text: "Cancelar",
+          role: "cancel"
+        },
+        {
+          text: "Confirmar",
+          handler: async (alertData) => {
+            // programação para alterar a social específica
+            switch (social) {
+              case "Telegram":
+                this.seuPerfilService.editUserSocialInfo({ telegram: alertData.username }).subscribe(async (data) => {
+                  await this.ionToastService.presentToast(data.message);
+                });
+                break;
+              case "Facebook":
+                this.seuPerfilService.editUserSocialInfo({ facebook: alertData.username }).subscribe(async (data) => {
+                  await this.ionToastService.presentToast(data.message);
+                });
+                break;
+              case "Twitter":
+                this.seuPerfilService.editUserSocialInfo({ twitter: alertData.username }).subscribe(async (data) => {
+                  await this.ionToastService.presentToast(data.message);
+                });
+                break;
+              case "Twitch":
+                this.seuPerfilService.editUserSocialInfo({ twitch: alertData.username }).subscribe(async (data) => {
+                  await this.ionToastService.presentToast(data.message);
+                });
+                break;
+              default:
+                // TODO, pensar em algo melhor
+                console.log("Error")
+                break;
+            }
+
+            // TODO, não está atualizando as informações sociais
+            this.loadUserSocialEditInfo();
+          }
+        }
+        ], "(Deixe vazio para limpar)")
+    } else { // se NÃO está logado e quer informar uma rede social
+      this.ionAlertService.presentAlertPrompt("Logar com " + social, [{
+        name: "username",
+        type: "text"
+      }],
+        [{
+          text: "Cancelar",
+          role: "cancel"
+        },
+        {
+          text: "Confirmar",
+          handler: async (alertData) => {
+            // programação para alterar a social específica
+            switch (social) {
+              case "Telegram":
+                this.seuPerfilService.editUserSocialInfo({ telegram: alertData.username }).subscribe(async (data) => {
+                  await this.ionToastService.presentToast(data.message);
+                });
+                break;
+              case "Facebook":
+                this.seuPerfilService.editUserSocialInfo({ facebook: alertData.username }).subscribe(async (data) => {
+                  await this.ionToastService.presentToast(data.message);
+                });
+                break;
+              case "Twitter":
+                this.seuPerfilService.editUserSocialInfo({ twitter: alertData.username }).subscribe(async (data) => {
+                  await this.ionToastService.presentToast(data.message);
+                });
+                break;
+              case "Twitch":
+                this.seuPerfilService.editUserSocialInfo({ twitch: alertData.username }).subscribe(async (data) => {
+                  await this.ionToastService.presentToast(data.message);
+                });
+                break;
+              default:
+                // TODO, pensar em algo melhor
+                console.log("Error")
+                break;
+            }
+
+            // TODO, não está atualizando as informações sociais
+            this.loadUserSocialEditInfo();
+
+          }
+        }
+        ])
+    }
   }
 
   async editPassword() {
@@ -96,14 +208,14 @@ export class EditarPerfilPage implements OnInit {
       return;
     }
 
+    if (this.password_new != this.password_confirm) {
+      await this.ionToastService.presentToast("\"Senha nova\" e \"Confirme nova senha\" diferem.", "middle");
+      return;
+    }
+
     this.ionAlertService.presentAlertMultipleButtons("Aviso", "Confirmar alteração de senha?", [{
       text: "Sim",
       handler: async () => {
-        if (this.password_new != this.password_confirm) {
-          await this.ionToastService.presentToast("\"Senha nova\" e \"Confirme nova senha\" diferem.", "middle");
-          return;
-        }
-
         this.seuPerfilService.editPassword({ password_old: this.password_old, password_new: this.password_new }).subscribe(async (data) => {
           await this.ionToastService.presentToast(data.message);
         });
