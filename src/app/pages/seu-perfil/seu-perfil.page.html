@@ -9,7 +9,7 @@
 
 <ion-content>
   <!-- botão de ações -->
-  <!-- TODO, pode ser transformado em componente e só ser exibido se for o usuário visualizando o próprio perfil -->
+  <!-- TODO só ser exibido se for o usuário visualizando o próprio perfil (só é possível com implementação de JWT e sessões) -->
   <ion-fab *ngIf=user vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="dark" [routerLink]="['/editar-perfil']">
       <ion-icon name="create-outline"></ion-icon>
@@ -36,7 +36,7 @@
           <ion-card class="nivel">
             <ion-card-header>
               <ion-card-subtitle>Nível</ion-card-subtitle>
-              <ion-card-title>{{user.data.nivel}}</ion-card-title>
+              <ion-card-title>{{user.data.level}}</ion-card-title>
             </ion-card-header>
           </ion-card>
         </ion-col>
@@ -44,7 +44,7 @@
           <ion-card class="moedas">
             <ion-card-header>
               <ion-card-subtitle>Moedas</ion-card-subtitle>
-              <ion-card-title>{{user.data.moedas}}</ion-card-title>
+              <ion-card-title>{{user.data.coins}}</ion-card-title>
             </ion-card-header>
           </ion-card>
         </ion-col>
@@ -52,7 +52,7 @@
           <ion-card class="amigos">
             <ion-card-header>
               <ion-card-subtitle>Amigos</ion-card-subtitle>
-              <ion-card-title>{{user.data.amigos}}</ion-card-title>
+              <ion-card-title>{{user.data.friends}}</ion-card-title>
             </ion-card-header>
           </ion-card>
         </ion-col>
