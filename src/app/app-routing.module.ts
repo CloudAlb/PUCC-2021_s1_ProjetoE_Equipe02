@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'criar-torneio',
     pathMatch: 'full'
   },
   {
@@ -22,7 +22,12 @@ const routes: Routes = [
   {
     path: 'cadastro-usuario',
     loadChildren: () => import('./pages/cadastros/cadastro-usuario.module').then(m => m.CadastroUsuarioPageModule)
+  },
+  {
+    path: 'criar-torneio',
+    loadChildren: () => import('./pages/criar-torneio/criar-torneio.module').then( m => m.CriarTorneioPageModule)
   }
+
 ];
 
 @NgModule({

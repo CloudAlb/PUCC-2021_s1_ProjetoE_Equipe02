@@ -16,8 +16,6 @@ export class CadastroUsuarioPage implements OnInit {
     data_nascimento:''
   };
 
-<<<<<<< HEAD:src/app/cadastros/cadastro-usuario.page.ts
-=======
   public maxDate = new Date
 
   /*
@@ -29,7 +27,6 @@ export class CadastroUsuarioPage implements OnInit {
   public todayFormattedDate = this.dd + '/' + this.mm + '/' + this.yyyy;
   */
 
->>>>>>> b4955d4f6f66bca5563c0042c63c7ab4ed012734:src/app/pages/cadastros/cadastro-usuario.page.ts
   public fGroup: FormGroup;
 
   constructor(private activatedRoute: ActivatedRoute,
