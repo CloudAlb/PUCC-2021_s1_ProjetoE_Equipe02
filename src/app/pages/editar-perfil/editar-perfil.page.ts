@@ -106,9 +106,9 @@ export class EditarPerfilPage implements OnInit {
   }
 
   // TODO, ajeitar
-  async editUserSocialInfo(social: string, username: string) {
+  async editUserSocialInfo(social_network: string, username: string) {
     if (username) { // se está logado e quer alterar ou apagar
-      this.ionAlertService.presentAlertPrompt("Alterar contato do " + social, [{
+      this.ionAlertService.presentAlertPrompt("Alterar contato do " + social_network, [{
         name: "username",
         value: username,
         type: "text"
@@ -120,25 +120,25 @@ export class EditarPerfilPage implements OnInit {
         {
           text: "Confirmar",
           handler: async (alertData) => {
-            // programação para alterar a social específica
-            switch (social) {
+            // programação para alterar a social_network específica
+            switch (social_network) {
               case "Telegram":
-                this.seuPerfilService.editUserSocialInfo({ telegram: alertData.username }).subscribe(async (data) => {
+                this.seuPerfilService.editUserSocialInfo({ social_network: 'telegram', username: alertData.username }).subscribe(async (data) => {
                   await this.ionToastService.presentToast(data.message);
                 });
                 break;
               case "Facebook":
-                this.seuPerfilService.editUserSocialInfo({ facebook: alertData.username }).subscribe(async (data) => {
+                this.seuPerfilService.editUserSocialInfo({ social_network: 'facebook', username: alertData.username }).subscribe(async (data) => {
                   await this.ionToastService.presentToast(data.message);
                 });
                 break;
               case "Twitter":
-                this.seuPerfilService.editUserSocialInfo({ twitter: alertData.username }).subscribe(async (data) => {
+                this.seuPerfilService.editUserSocialInfo({ social_network: 'twitter', username: alertData.username }).subscribe(async (data) => {
                   await this.ionToastService.presentToast(data.message);
                 });
                 break;
               case "Twitch":
-                this.seuPerfilService.editUserSocialInfo({ twitch: alertData.username }).subscribe(async (data) => {
+                this.seuPerfilService.editUserSocialInfo({ social_network: 'twitch', username: alertData.username }).subscribe(async (data) => {
                   await this.ionToastService.presentToast(data.message);
                 });
                 break;
@@ -154,7 +154,7 @@ export class EditarPerfilPage implements OnInit {
         }
         ], "(Deixe vazio para limpar)")
     } else { // se NÃO está logado e quer informar uma rede social
-      this.ionAlertService.presentAlertPrompt("Logar com " + social, [{
+      this.ionAlertService.presentAlertPrompt("Logar com " + social_network, [{
         name: "username",
         type: "text"
       }],
@@ -166,24 +166,24 @@ export class EditarPerfilPage implements OnInit {
           text: "Confirmar",
           handler: async (alertData) => {
             // programação para alterar a social específica
-            switch (social) {
+            switch (social_network) {
               case "Telegram":
-                this.seuPerfilService.editUserSocialInfo({ telegram: alertData.username }).subscribe(async (data) => {
+                this.seuPerfilService.editUserSocialInfo({ social_network: 'telegram', username: alertData.username }).subscribe(async (data) => {
                   await this.ionToastService.presentToast(data.message);
                 });
                 break;
               case "Facebook":
-                this.seuPerfilService.editUserSocialInfo({ facebook: alertData.username }).subscribe(async (data) => {
+                this.seuPerfilService.editUserSocialInfo({ social_network: 'facebook', username: alertData.username }).subscribe(async (data) => {
                   await this.ionToastService.presentToast(data.message);
                 });
                 break;
               case "Twitter":
-                this.seuPerfilService.editUserSocialInfo({ twitter: alertData.username }).subscribe(async (data) => {
+                this.seuPerfilService.editUserSocialInfo({ social_network: 'twitter', username: alertData.username }).subscribe(async (data) => {
                   await this.ionToastService.presentToast(data.message);
                 });
                 break;
               case "Twitch":
-                this.seuPerfilService.editUserSocialInfo({ twitch: alertData.username }).subscribe(async (data) => {
+                this.seuPerfilService.editUserSocialInfo({ social_network: 'twitch', username: alertData.username }).subscribe(async (data) => {
                   await this.ionToastService.presentToast(data.message);
                 });
                 break;

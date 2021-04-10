@@ -1,8 +1,10 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { UserInfo } from 'src/app/models/DTO/user-info';
-import { UserSocialResponse } from 'src/app/models/DTO/user-social-response';
+import { UserInfo } from 'src/app/models/user-info';
+import { UserSocialResponse } from 'src/app/models/user-social-response';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { SessionManagerService } from 'src/app/services/session-manager.service';
 
 import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
 
@@ -23,7 +25,9 @@ export class SeuPerfilPage implements OnInit {
   private user: UserInfo;
   private socials: [{}] = [{}];
 
-  constructor(private seuPerfilService: SeuPerfilService) { }
+  constructor(private seuPerfilService: SeuPerfilService,
+    private localStorageService: LocalStorageService,
+    private sessionManagerService: SessionManagerService) { }
 
   ngOnInit() {
     // TODO, pode dar erro depois?
@@ -33,8 +37,8 @@ export class SeuPerfilPage implements OnInit {
   }
 
   private loadUserInfo() {
-    // TODO, try catch ou outra tratativa de erros
 
+    // TODO, try catch ou outra tratativa de erros
     this.seuPerfilService.getUser().subscribe((response) => {
       if (!response.data) return;
 
@@ -54,7 +58,7 @@ export class SeuPerfilPage implements OnInit {
     })
   };
 
+  // TODO, continuar
   private ionViewWillEnter(): void {
-    console.log("teste");
   }
 }

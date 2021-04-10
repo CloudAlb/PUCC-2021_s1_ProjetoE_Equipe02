@@ -1,4 +1,6 @@
 export interface UserInfo {
+  id_user?: string;
+
   data?: {
     name: string,
     username: string,

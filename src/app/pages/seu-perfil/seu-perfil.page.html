@@ -74,15 +74,8 @@
           <ion-card-subtitle>Redes sociais</ion-card-subtitle>
           <ion-card-title>
 
-            <!--
-              TODO, transformar em componente
-              assim é mais fácil de replicar, usando um vetor de objetos
-              onde o objeto conteria "social, username" e preencheria
-              automaticamente usando o ng-for
-            -->
-
-              <app-social-card *ngFor="let social of socials" [social]="social.social" [username]="social.username"></app-social-card>
-
+            <app-social-card *ngFor="let social of socials" [social]="social.social" [username]="social.username">
+            </app-social-card>
 
           </ion-card-title>
         </ion-card-header>

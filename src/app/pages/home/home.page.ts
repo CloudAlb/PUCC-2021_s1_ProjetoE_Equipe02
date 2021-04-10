@@ -15,17 +15,24 @@ export class HomePage implements OnInit {
   private readonly offset: number = 9;
   private index: number = 0;
 
+  private name = "";
+  private email = "";
+  private avatar_image = "";
+
   constructor(private activatedRoute: ActivatedRoute) {
     for (let i = 0; i < 100; i++) {
-      this.items.push(`Item ${i+1}`)
+      this.items.push(`Item ${i + 1}`)
     }
-    this.itemsPage = this.items.slice(this.index, this.offset+this.index);
+    this.itemsPage = this.items.slice(this.index, this.offset + this.index);
     this.index += this.offset;
+  }
+
+  ngOnInit() {
   }
 
   loadData(event) {
     setTimeout(() => {
-      let news = this.items.slice(this.index, this.offset+this.index);
+      let news = this.items.slice(this.index, this.offset + this.index);
       this.index += this.offset;
 
       for (let i = 0; i < news.length; i++) {
@@ -39,8 +46,4 @@ export class HomePage implements OnInit {
       }
     }, 1200);
   }
-
-  ngOnInit() {
-  }
-
 }
