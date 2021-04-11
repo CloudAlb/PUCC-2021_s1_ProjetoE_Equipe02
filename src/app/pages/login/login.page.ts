@@ -12,8 +12,8 @@ import { SessionsService } from 'src/app/services/sessions.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  private login = "Apelido novo";
-  private password = "123456";
+  private login = "MAlb";
+  private password = "12345678";
 
   constructor(private sessionManagerService: SessionManagerService,
     private sessionsService: SessionsService,
