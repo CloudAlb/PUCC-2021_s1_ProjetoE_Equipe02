@@ -5,13 +5,7 @@
       <ion-list id="inbox-list">
         <img src={{avatarPath}} id="icon-user" alt="Avatar" class="avatar" />
         <ion-list-header>{{name}}</ion-list-header>
-        <ion-note>{{email}}</ion-note>
-
-        <!--
-          TODO, lembrete
-          provisoriamente, estarei guardando o Nome completo, e-mail e foto de perfil
-          em LocalStorage após o login, para que o menu lateral fique com as informações
-        -->
+        <ion-note>@{{username}}</ion-note>
 
         <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
           <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"

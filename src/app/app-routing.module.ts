@@ -25,12 +25,17 @@ const routes: Routes = [
   },
   {
     path: 'cadastro',
-    loadChildren: () => import('./pages/cadastros/cadastro-usuario.module').then(m => m.CadastroUsuarioPageModule)
+    loadChildren: () => import('./pages/cadastro-usuario/cadastro-usuario.module').then(m => m.CadastroUsuarioPageModule)
   },
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'tournament',
+    loadChildren: () => import('./pages/tournament/tournament.module').then( m => m.TournamentPageModule)
   }
+
 
 ];
 

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { localUserData } from '../models/local-user-data';
+
+interface localUserData {
+  name: string;
+  username: string;
+  avatar_image?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -43,16 +48,16 @@ export class LocalStorageService {
     return false;
   }
 
-  setUserInfo({ name, email, avatar_image }: localUserData) {
+  setUserInfo({ name, username, avatar_image }: localUserData) {
     this.set("user.name", name);
-    this.set("user.email", email);
+    this.set("user.username", username);
     if (avatar_image) this.set("user.avatar_image", avatar_image);
   }
 
   getUserInfo(): localUserData {
     return {
       name: this.get("user.name"),
-      email: this.get("user.email"),
+      username: this.get("user.username"),
       // TODO, consertar depois
       // avatar: this.get("user.avatar_image")
     };

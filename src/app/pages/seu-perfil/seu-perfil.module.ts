@@ -19,9 +19,3 @@ import { SocialCardComponent } from 'src/app/components/social-card/social-card.
   declarations: [SeuPerfilPage, SocialCardComponent]
 })
 export class SeuPerfilPageModule {}
-
-/* TODO, para anotar
-estava dando bastante problema na parte de usar o componente social-card na página seu-perfil
-alterações que lembro de ter feito para funcionar:
-- colocar o SocialCardComponent em "declarations" no arquivo .module.ts da página
-*/

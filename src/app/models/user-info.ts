@@ -13,7 +13,7 @@ export interface UserInfo {
     bio: string;
     level: string;
     coins: string;
-    friends: string;
+    followers: string;
   };
 
   error?: string;

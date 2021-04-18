@@ -7,11 +7,6 @@
   </ion-toolbar>
 </ion-header>
 
-<!--
-  TODO, definir maxlength, minlength de cada ion-input
-        componentizar os inputs para os placeholders serem as informações atuais do cliente
--->
-
 <ion-content>
   <ion-text color="primary">
     <h5>Informações pessoais</h5>
@@ -28,7 +23,7 @@
   </ion-item>
 
   <!--
-    TODO, maxlength da bio pode mudar
+    TODO, colocar caracteres restantes
   -->
   <ion-item>
     <ion-label position="stacked">Bio</ion-label>
@@ -42,18 +37,12 @@
 
   <ion-item>
     <ion-label position="stacked">Data de nascimento</ion-label>
-    <!-- TODO, acertar input -->
     <ion-input [placeholder]="placeholder" [(ngModel)]="birth_date"></ion-input>
   </ion-item>
 
   <ion-item>
     <ion-button (click)="editUserInfo()" size="small" slot="end">Confirmar</ion-button>
   </ion-item>
-
-  <!--
-    TODO, melhorar a cor do chip e fazer ser editável
-          lidar com a pessoa já ter a rede (desconectar, no caso)
-  -->
 
   <ion-text color="primary">
     <h5>Redes sociais</h5>
