@@ -15,9 +15,9 @@ export class MenuLateralComponent implements OnInit {
   public appPages = [
     { title: 'Home', url: 'home', icon: 'home' },
     { title: 'Seu perfil', url: 'seu-perfil', icon: 'person' },
-    { title: 'Torneios', url: '/folder/Torneios', icon: 'trophy' },
+    { title: 'Criar Torneio', url: 'criar-torneio', icon: 'trophy' },
     { title: 'Amigos', url: '/folder/Amigos', icon: 'heart' },
-    { title: 'Loja', url: '/folder/Loja', icon: 'bag' },
+    { title: 'Loja', url: 'loja', icon: 'bag' },
     { title: 'Cadastro', url: '/cadastro', icon: 'add' },
     { title: 'Login', url: '/login', icon: 'add' },
   ];

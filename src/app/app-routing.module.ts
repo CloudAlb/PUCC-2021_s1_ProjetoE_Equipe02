@@ -30,7 +30,12 @@ const routes: Routes = [
   {
     path: 'criar-torneio',
     loadChildren: () => import('./pages/criar-torneio/criar-torneio.module').then( m => m.CriarTorneioPageModule)
+  },
+  {
+    path: 'loja',
+    loadChildren: () => import('./pages/loja/loja.module').then( m => m.LojaPageModule)
   }
+
 
 ];
 

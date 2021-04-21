@@ -19,11 +19,11 @@ export class CadastroUsuarioPage implements OnInit {
   };
 
   // esquema do Matheus
-  private name = 'Matheus Albino';
-  private username = 'MAlb';
-  private email = 'malb@gmail.com';
-  private password = '12345678';
-  private birth_date = '2001-10-16';
+  public name //= 'Matheus Albino';
+  public username //= 'MAlb';
+  public email //= 'malb@gmail.com';
+  public password //= '12345678';
+  public birth_date //= '2001-10-16';
 
   public maxDate = '';
 
@@ -71,7 +71,7 @@ export class CadastroUsuarioPage implements OnInit {
     // this.fGroup.get('nome').setValue()
   }
 
-  private cadastrar(
+  public cadastrar(
     name: string,
     username: string,
     email: string,

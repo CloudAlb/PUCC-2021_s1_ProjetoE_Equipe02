@@ -14,20 +14,20 @@ import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
   styleUrls: ['./seu-perfil.page.scss'],
 })
 export class SeuPerfilPage implements OnInit {
-  private backgroundPath = "assets/backgrounds/defaultBackground.jpg";
-  private avatarPath = "assets/icons/defaultIcon.svg";
+  public backgroundPath = "assets/backgrounds/defaultBackground.jpg";
+  public avatarPath = "assets/icons/defaultIcon.svg";
 
-  private Telegram = "assets/icons/logo-telegram.svg";
-  private Facebook = "assets/icons/logo-facebook.svg";
-  private Twitter = "assets/icons/logo-twitter.svg";
-  private Twitch = "assets/icons/logo-twitch.svg";
+  public Telegram = "assets/icons/logo-telegram.svg";
+  public Facebook = "assets/icons/logo-facebook.svg";
+  public Twitter = "assets/icons/logo-twitter.svg";
+  public Twitch = "assets/icons/logo-twitch.svg";
 
-  private user: UserInfo;
-  private socials: [{}] = [{}];
+  public user: UserInfo;
+  public socials: [{}] = [{}];
 
-  constructor(private seuPerfilService: SeuPerfilService,
-    private localStorageService: LocalStorageService,
-    private sessionManagerService: SessionManagerService) { }
+  constructor(public seuPerfilService: SeuPerfilService,
+    public localStorageService: LocalStorageService,
+    public sessionManagerService: SessionManagerService) { }
 
   ngOnInit() {
     // TODO, pode dar erro depois?
