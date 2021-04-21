@@ -9,7 +9,6 @@ import { IonToastService } from 'src/app/services/ion-toast.service';
   styleUrls: ['./editar-perfil.page.scss'],
 })
 
-// TODO, validar campos
 export class EditarPerfilPage implements OnInit {
   private logoTelegram = "assets/icons/logo-telegram.svg";
   private logoFacebook = "assets/icons/logo-facebook.svg";
@@ -105,7 +104,6 @@ export class EditarPerfilPage implements OnInit {
     }]);
   }
 
-  // TODO, ajeitar
   async editUserSocialInfo(social_network: string, username: string) {
     if (username) { // se está logado e quer alterar ou apagar
       this.ionAlertService.presentAlertPrompt("Alterar contato do " + social_network, [{
@@ -143,13 +141,9 @@ export class EditarPerfilPage implements OnInit {
                 });
                 break;
               default:
-                // TODO, pensar em algo melhor
-                console.log("Error")
+                await this.ionToastService.presentToast("Houve um erro.");
                 break;
             }
-
-            // TODO, não está atualizando as informações sociais
-            this.loadUserSocialEditInfo();
           }
         }
         ], "(Deixe vazio para limpar)")
@@ -188,14 +182,8 @@ export class EditarPerfilPage implements OnInit {
                 });
                 break;
               default:
-                // TODO, pensar em algo melhor
-                console.log("Error")
-                break;
+                await this.ionToastService.presentToast("Houve um erro.");
             }
-
-            // TODO, não está atualizando as informações sociais
-            this.loadUserSocialEditInfo();
-
           }
         }
         ])

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CadastroService } from 'src/app/services/cadastro.service';
 import { IonToastService } from 'src/app/services/ion-toast.service';
+import { SessionManagerService } from 'src/app/services/session-manager.service';
+import { SessionsService } from 'src/app/services/sessions.service';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -32,8 +34,12 @@ export class CadastroUsuarioPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private fBuilder: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
     private ionToastService: IonToastService,
-    private cadastroService: CadastroService
+    private cadastroService: CadastroService,
+    private sessionManagerService: SessionManagerService,
+    private sessionsService: SessionsService
   ) {
     this.maxDate = this.getTodayDate();
 
@@ -86,7 +92,14 @@ export class CadastroUsuarioPage implements OnInit {
           return;
         }
 
+        this.sessionManagerService.setToken(response.token.token);
+        this.sessionsService.setUserData();
+
         await this.ionToastService.presentToast(response.message, 'bottom');
+
+        this.router
+          .navigate(['/home'], { relativeTo: this.route.parent })
+          .then(() => {});
       });
   }
 

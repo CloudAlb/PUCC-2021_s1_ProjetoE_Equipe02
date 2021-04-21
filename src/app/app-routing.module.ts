@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'cadastro',
-    loadChildren: () => import('./pages/cadastros/cadastro-usuario.module').then(m => m.CadastroUsuarioPageModule)
+    loadChildren: () => import('./pages/cadastro-usuario/cadastro-usuario.module').then(m => m.CadastroUsuarioPageModule)
   },
   {
     path: 'criar-torneio',
@@ -34,6 +34,10 @@ const routes: Routes = [
   {
     path: 'loja',
     loadChildren: () => import('./pages/loja/loja.module').then( m => m.LojaPageModule)
+  },
+  {
+    path: 'tournament',
+    loadChildren: () => import('./pages/tournament/tournament.module').then( m => m.TournamentPageModule)
   }
 
 

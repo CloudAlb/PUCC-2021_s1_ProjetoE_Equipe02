@@ -17,7 +17,7 @@ export class HomePage implements OnInit {
   private index: number = 0;
 
   private name = "";
-  private email = "";
+  private username = "";
   private avatar_image = "";
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     const userInfo = this.localStorageService.getUserInfo();
     this.name = userInfo.name;
-    this.email = userInfo.email;
+    this.username = userInfo.username;
     if (userInfo.avatar_image) this.avatar_image = userInfo.avatar_image;
   }
 

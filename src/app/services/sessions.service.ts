@@ -2,10 +2,23 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { localUserData } from '../models/local-user-data';
-import { LoginResponse } from '../models/login-response';
 import { LocalStorageService } from './local-storage.service';
 import { SeuPerfilService } from './seu-perfil.service';
+
+interface localUserData {
+  name: string;
+  username: string;
+  avatar_image?: string;
+}
+
+interface LoginResponse {
+  token?: {
+    token: string;
+  }
+
+  status?: string;
+  message?: string;
+}
 
 interface Request {
   login: string;
@@ -28,7 +41,7 @@ export class SessionsService {
   public setUserData() {
     // TODO, tratativa de erro?
     this.seuPerfilService.getUser().subscribe((response) => {
-      this.localStorageService.setUserInfo({ name: response.data.name, email: response.data.email, avatar_image: response.data.avatarImage });
+      this.localStorageService.setUserInfo({ name: response.data.name, username: response.data.username, avatar_image: response.data.avatarImage });
     })
   };
 

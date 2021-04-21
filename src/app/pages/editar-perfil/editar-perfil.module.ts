@@ -14,8 +14,6 @@ import { EditarPerfilPage } from './editar-perfil.page';
     FormsModule,
     IonicModule,
     EditarPerfilPageRoutingModule,
-    // TODO, conflito
-    // FolderPageRoutingModule,
     ReactiveFormsModule
   ],
   declarations: [EditarPerfilPage]

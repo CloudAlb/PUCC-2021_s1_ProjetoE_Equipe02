@@ -1,10 +1,10 @@
 export interface UserInfo {
-  id_user?: string;
-
   data?: {
-    name: string,
-    username: string,
-    email: string,
+    id_user: string;
+
+    name: string;
+    username: string;
+    email: string;
     birth_date: string;
 
     avatarImage: string;
@@ -13,8 +13,8 @@ export interface UserInfo {
     bio: string;
     level: string;
     coins: string;
-    friends: string;
-  }
+    followers: string;
+  };
 
   error?: string;
   message?: string;
