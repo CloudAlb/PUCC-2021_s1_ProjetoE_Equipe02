@@ -24,3 +24,8 @@
   vertical-align: middle;
   display: inline-block;
 }
+
+ion-card{
+  --background: url('../../../assets/backgrounds/001.svg') no-repeat center center / cover !important;
+  color: black;
+}

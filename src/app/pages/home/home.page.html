@@ -6,7 +6,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-header>
+  <!-- <ion-header>
     <ion-card>
       <ion-card-header>
         <ion-card-title>No que está pensando hoje ?</ion-card-title>
@@ -19,7 +19,7 @@
         </ion-item>
       </ion-card-content>
     </ion-card>
-  </ion-header>
+  </ion-header> -->
 
   <ion-list *ngFor="let _item of itemsPage">
     <ion-card>
@@ -28,27 +28,29 @@
           <ion-icon class="user-icon" size="large" name="person-circle-outline"></ion-icon>
           <span class="icon-text">{{_item}}</span>
         </ion-card-title>
+        <ion-card-subtitle>{{nameCamp}}</ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
-        Keep close to Nature's heart... and break clear away, once in awhile,
-        and climb a mountain or spend a week in the woods. Wash your spirit clean.
+        Jogo: {{jogoCamp}}
+        <!-- <br>Keep close to Nature's heart... and break clear away, once in awhile,
+        and climb a mountain or spend a week in the woods. Wash your spirit clean. -->
       </ion-card-content>
 
-      <footer id="footer_pubs">
+      <!-- <footer id="footer_pubs">
         <ion-icon size="small" name="thumbs-up-outline"></ion-icon>
         <span class="icon-text">Curtir</span>
         <ion-icon size="small" name="chatbox-ellipses-outline"></ion-icon>
         <span class="icon-text">Comentar</span>
         <ion-icon size="small" name="arrow-redo-outline"></ion-icon>
         <span class="icon-text">Compartilhar</span>
-      </footer>
+      </footer> -->
     </ion-card>
   </ion-list>
 
   <ion-fab id="tournament_button" slot="fixed" edge="true" horizontal="end">
     <ion-fab-button>
-      <ion-icon name="add-outline"></ion-icon>
+      <ion-icon (click)="presentAlertRadio()" name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
