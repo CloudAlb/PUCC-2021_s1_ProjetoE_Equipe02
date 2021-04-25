@@ -6,12 +6,29 @@ interface AlertButton {
   text: string;
   role?: string;
   cssClass?: string | string[];
-  handler?: (value: any) => boolean | void | {
-    [key: string]: any;
-  };
+  handler?: (
+    value: any
+  ) =>
+    | boolean
+    | void
+    | {
+        [key: string]: any;
+      };
 }
 
-type TextFieldTypes = 'date' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url' | 'time' | 'week' | 'month' | 'datetime-local';
+type TextFieldTypes =
+  | 'date'
+  | 'email'
+  | 'number'
+  | 'password'
+  | 'search'
+  | 'tel'
+  | 'text'
+  | 'url'
+  | 'time'
+  | 'week'
+  | 'month'
+  | 'datetime-local';
 
 interface AlertInput {
   type?: TextFieldTypes | 'checkbox' | 'radio' | 'textarea';
@@ -20,11 +37,10 @@ interface AlertInput {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IonAlertService {
-
-  constructor(private alertController: AlertController) { }
+  constructor(private alertController: AlertController) {}
 
   public async presentAlertMultipleButtons(header: string, message: string, buttons: Array<string> | Array<AlertButton>, subheader?: string) {
     const alert = await this.alertController.create({
@@ -38,13 +54,18 @@ export class IonAlertService {
     await alert.present();
   };
 
-  public async presentAlertPrompt(header: string, inputs: Array<AlertInput>, buttons: Array<string> | Array<AlertButton>, message?: string) {
+  public async presentAlertPrompt(
+    header: string,
+    inputs: Array<AlertInput>,
+    buttons: Array<string> | Array<AlertButton>,
+    message?: string
+  ) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: header,
       message: message,
       inputs: inputs,
-      buttons: buttons
+      buttons: buttons,
     });
 
     await alert.present();

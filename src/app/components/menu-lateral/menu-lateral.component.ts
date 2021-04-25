@@ -7,9 +7,9 @@ import { SessionsService } from 'src/app/services/sessions.service';
   styleUrls: ['./menu-lateral.component.scss'],
 })
 export class MenuLateralComponent implements OnInit {
-  private name = '';
-  private username = '';
-  private avatarPath = 'assets/icons/defaultIcon.svg';
+  private name: string;
+  private username: string;
+  private avatarPath: string;
 
   public appPages = [
     { title: 'Home', url: 'home', icon: 'home' },
@@ -28,6 +28,10 @@ export class MenuLateralComponent implements OnInit {
   constructor(private sessionsService: SessionsService) {}
 
   ngOnInit() {
+    this.name = '';
+    this.username = '';
+    this.avatarPath = 'assets/icons/defaultIcon.svg';
+
     this.loadUserInfo();
   }
 

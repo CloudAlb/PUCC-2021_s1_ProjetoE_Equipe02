@@ -92,14 +92,16 @@ export class CadastroUsuarioPage implements OnInit {
           return;
         }
 
-        this.sessionManagerService.setToken(response.token.token);
-        this.sessionsService.setUserData();
+        // this.sessionManagerService.setToken(response.token.token);
+        // this.sessionsService.setUserData();
 
         await this.ionToastService.presentToast(response.message, 'bottom');
 
+        /*
         this.router
           .navigate(['/home'], { relativeTo: this.route.parent })
           .then(() => {});
+        */
       });
   }
 

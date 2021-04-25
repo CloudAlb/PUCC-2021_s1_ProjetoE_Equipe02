@@ -32,6 +32,23 @@ export class SeuPerfilPage implements OnInit {
     this.socials.shift();
 
     this.loadUserInfo();
+    this.loadUserSocialInfo();
+
+    this.user = {
+      data: {
+        id_user: '',
+        name: '',
+        username: '',
+        email: '',
+        birth_date: '',
+        avatarImage: '',
+        backgroundImage: '',
+        bio: '',
+        level: '',
+        coins: '',
+        followers: '',
+      },
+    };
   }
 
   private loadUserInfo() {
@@ -40,21 +57,41 @@ export class SeuPerfilPage implements OnInit {
 
       this.user = response;
 
-      if (response.data.avatarImage) this.backgroundPath = response.data.avatarImage;
-      if (response.data.backgroundImage) this.backgroundPath = response.data.backgroundImage;
+      if (response.data.avatarImage)
+        this.backgroundPath = response.data.avatarImage;
+      if (response.data.backgroundImage)
+        this.backgroundPath = response.data.backgroundImage;
     });
+  }
 
+  private loadUserSocialInfo() {
     this.seuPerfilService.getUserSocial().subscribe((response) => {
       if (!response.data) return;
 
-      if (response.data.telegram) this.socials.push({ social: this.Telegram, username: response.data.telegram });
-      if (response.data.facebook) this.socials.push({ social: this.Facebook, username: response.data.facebook });
-      if (response.data.twitter) this.socials.push({ social: this.Twitter, username: response.data.twitter });
-      if (response.data.twitch) this.socials.push({ social: this.Twitch, username: response.data.twitch });
-    })
-  };
+      if (response.data.telegram)
+        this.socials.push({
+          social: this.Telegram,
+          username: response.data.telegram,
+        });
+      if (response.data.facebook)
+        this.socials.push({
+          social: this.Facebook,
+          username: response.data.facebook,
+        });
+      if (response.data.twitter)
+        this.socials.push({
+          social: this.Twitter,
+          username: response.data.twitter,
+        });
+      if (response.data.twitch)
+        this.socials.push({
+          social: this.Twitch,
+          username: response.data.twitch,
+        });
+    });
+  }
 
-  private ionViewWillEnter(): void {
+  private ionViewWillEnter() {
     this.loadUserInfo();
   }
 }
