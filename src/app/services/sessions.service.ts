@@ -31,19 +31,11 @@ interface Request {
 export class SessionsService {
 
   constructor(private http: HttpClient,
-    private seuPerfilService: SeuPerfilService,
     private localStorageService: LocalStorageService) { }
 
   public postLogin(body: Request): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(environment.baseUrl + "/sessions", body);
   }
-
-  public setUserData() {
-    // TODO, tratativa de erro?
-    this.seuPerfilService.getUser().subscribe((response) => {
-      this.localStorageService.setUserInfo({ name: response.data.name, username: response.data.username, avatar_image: response.data.avatarImage });
-    })
-  };
 
   public getUserData(): localUserData {
     // TODO, tratativa de erro?

@@ -131,47 +131,54 @@
   </div>
 </ion-content>
 
-<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="!flagTournamentInitialized">
-  <ion-fab-button (click)="createInviteParticipantsModal()">
-    <ion-icon name="add-outline"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+<div *ngIf="userIsTournamentOwner">
+  <ion-fab
+    vertical="bottom"
+    horizontal="start"
+    slot="fixed"
+    *ngIf="!flagTournamentInitialized"
+  >
+    <ion-fab-button (click)="createInviteParticipantsModal()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-<ion-fab
-  vertical="bottom"
-  horizontal="center"
-  slot="fixed"
-  *ngIf="flagChangeWasMade"
->
-  <ion-fab-button (click)="showSaveTournamentAlert()">
-    <ion-icon name="save-outline"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab
+    vertical="bottom"
+    horizontal="center"
+    slot="fixed"
+    *ngIf="flagChangeWasMade"
+  >
+    <ion-fab-button (click)="showSaveTournamentAlert()">
+      <ion-icon name="save-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-<ion-fab
-  vertical="bottom"
-  horizontal="end"
-  slot="fixed"
-  *ngIf="flagTournamentReadyToInitialize"
->
-  <ion-fab-button (click)="showInitializeTournamentAlert()">
-    <ion-icon name="checkmark-outline"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    *ngIf="flagTournamentReadyToInitialize"
+  >
+    <ion-fab-button (click)="showInitializeTournamentAlert()">
+      <ion-icon name="checkmark-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
-<ion-fab
-  vertical="bottom"
-  horizontal="end"
-  slot="fixed"
-  *ngIf="flagWinnerSelected"
->
-  <ion-fab-button color="light" (click)="showChooseWinnerAlert()">
-    <img src="../../../assets/icons/crown.png" alt="" />
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    *ngIf="flagWinnerSelected"
+  >
+    <ion-fab-button color="light" (click)="showChooseWinnerAlert()">
+      <img src="../../../assets/icons/crown.png" alt="" />
+    </ion-fab-button>
+  </ion-fab>
+</div>
 
 <div class="footer-bar">
   <ion-footer class="ion-no-border">
-    <ion-toolbar>{{footerMessage}}</ion-toolbar>
+    <ion-toolbar class="footer"></ion-toolbar>
   </ion-footer>
 </div>

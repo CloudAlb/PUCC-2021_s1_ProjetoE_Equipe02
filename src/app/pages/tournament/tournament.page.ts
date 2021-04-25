@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
+import { interval } from 'rxjs';
+
 import { ActivatedRoute } from '@angular/router';
 import { ModalController, PickerController } from '@ionic/angular';
 import { PickerOptions } from '@ionic/core';
@@ -8,6 +10,7 @@ import { IonAlertService } from 'src/app/services/ion-alert.service';
 
 import { IonToastService } from 'src/app/services/ion-toast.service';
 import { TournamentsService } from 'src/app/services/tournaments.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 interface TournamentInfo {
   id_tournament: string;
@@ -53,7 +56,7 @@ interface bracketsObject {
 export class TournamentPage implements OnInit {
   tournamentInfo: TournamentInfo;
 
-  footerMessage = '';
+  userIsTournamentOwner = false;
 
   // brackets attributes
   flagParticipantsChosen = false;
@@ -84,12 +87,14 @@ export class TournamentPage implements OnInit {
     private tournamentsService: TournamentsService,
     private ionToastService: IonToastService,
     private pickerController: PickerController,
-    private ionAlertService: IonAlertService
+    private ionAlertService: IonAlertService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
     // TODO, aparentemente preciso inicializar todos os atributos de um page.ts
     // para não dar erro (cannot read property name of undefined)
+
     this.tournamentInfo = {
       id_tournament: '',
       name: '',
@@ -138,6 +143,7 @@ export class TournamentPage implements OnInit {
         }
 
         this.tournamentInfo = response.data;
+        this.ensureUserPermissions();
       });
   }
 
@@ -180,10 +186,11 @@ export class TournamentPage implements OnInit {
     }
     */
 
+    // verificando se o usuário é o dono do torneio
+    if (!this.userIsTournamentOwner) return;
+
     // verificando se o vencedor já foi escolhido
-    if (this.flagWinnerChosen) {
-      return;
-    }
+    if (this.flagWinnerChosen) return;
 
     // verificando se posso escolher um vencedor
     if (
@@ -268,6 +275,18 @@ export class TournamentPage implements OnInit {
     if (bracket == 'w' && this.flagSemifinalistsChosen) {
       this.selectableParticipantsNamesArray.push(this.column2[0]);
       this.selectableParticipantsNamesArray.push(this.column2[1]);
+    }
+
+    // se tudo isso resultou num vetor vazio
+    // ou seja, não há quem escolher
+    // não exibe nem processa nada
+    // mas avisa que precisa convidar mais pessoas para preencher os brackets
+    if (this.selectableParticipantsNamesArray.length == 0) {
+      await this.ionToastService.presentToast(
+        'Você precisa convidar mais pessoas para preencher as chaves do torneio!',
+        'top'
+      );
+      return;
     }
 
     await this.showPicker(bracket, this.selectableParticipantsNamesArray);
@@ -551,5 +570,23 @@ export class TournamentPage implements OnInit {
           this.flagSemifinalistsChosen = true;
         }
       });
+  }
+
+  ensureUserPermissions() {
+    const { id_user } = this.localStorageService.getUserInfo();
+
+    if (this.tournamentInfo.user.id_user == id_user) {
+      this.userIsTournamentOwner = true;
+
+      const source = interval(1000);
+      source.subscribe(() => {
+        this.getTournamentParticipants();
+      });
+    } else {
+      const source = interval(1000);
+      source.subscribe(() => {
+        this.loadTournamentColumns();
+      });
+    }
   }
 }
