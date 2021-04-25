@@ -1,8 +1,5 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-title>Cadastro</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -35,7 +32,7 @@
 
     <ion-item>
       <ion-label position="floating">Data de nascimento</ion-label>
-      <ion-datetime displayFormat="DD-MM-YYYY" formControlName="data_nascimento" max={{maxDate}} [(ngModel)]="birth_date"></ion-datetime>
+      <ion-datetime displayFormat="DD/MM/YYYY" formControlName="data_nascimento" max={{maxDate}} [(ngModel)]="birth_date"></ion-datetime>
       <!-- <ion-input clearInput placeholder="teste" type="date" ></ion-input> -->
     </ion-item>
 

@@ -1,10 +1,34 @@
+// my css
+.wrapper {
+  width: 1000px;
+}
+
+ion-chip {
+  font-size: 18px;
+}
+
 $side-margin: 50px;
 $vertical-margin: 10px;
 
-body {
-  background-color: DarkSalmon;
+ion-button {
+  margin-right: 12px;
+  width: 64px;
+  height: 64px;
+  font-size: 64px;
 }
 
+.footer-bar {
+  ion-toolbar {
+    --min-height: 100px !important;
+  }
+}
+
+// TODO, gambiarra
+ion-fab {
+  margin-bottom: 100px;
+}
+
+// their css
 .wrapper {
   display: flex;
   height: 600px;
@@ -18,7 +42,7 @@ body {
     padding: 20px;
     margin: 0;
     // background-color: Beige;
-    background-color: gray;
+    background-color: white;
   }
 
   &-parent {

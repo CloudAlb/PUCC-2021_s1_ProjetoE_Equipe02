@@ -37,7 +37,7 @@
 
   <ion-item>
     <ion-label position="stacked">Data de nascimento</ion-label>
-    <ion-input [placeholder]="placeholder" [(ngModel)]="birth_date"></ion-input>
+    <ion-datetime displayFormat="DD/MM/YYYY" max={{maxDate}} [(ngModel)]="birth_date"></ion-datetime>
   </ion-item>
 
   <ion-item>

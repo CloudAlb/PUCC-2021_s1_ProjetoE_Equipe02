@@ -7,14 +7,14 @@ import { SessionsService } from 'src/app/services/sessions.service';
   styleUrls: ['./menu-lateral.component.scss'],
 })
 export class MenuLateralComponent implements OnInit {
-  private name = '';
-  private username = '';
-  private avatarPath = 'assets/icons/defaultIcon.svg';
+  private name: string;
+  private username: string;
+  private avatarPath: string;
 
   public appPages = [
     { title: 'Home', url: 'home', icon: 'home' },
     { title: 'Seu perfil', url: 'seu-perfil', icon: 'person' },
-    { title: 'Torneios', url: '/tournament', icon: 'trophy' },
+    { title: 'Torneios', url: '/tournament-home', icon: 'trophy' },
     { title: 'Amigos', url: '/folder/Amigos', icon: 'heart' },
     { title: 'Loja', url: '/folder/Loja', icon: 'bag' },
     { title: 'Cadastro', url: '/cadastro', icon: 'add' },
@@ -27,6 +27,10 @@ export class MenuLateralComponent implements OnInit {
   constructor(private sessionsService: SessionsService) {}
 
   ngOnInit() {
+    this.name = '';
+    this.username = '';
+    this.avatarPath = 'assets/icons/defaultIcon.svg';
+
     this.loadUserInfo();
   }
 
