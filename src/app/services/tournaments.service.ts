@@ -94,14 +94,13 @@ export class TournamentsService {
     private http: HttpClient,
     private sessionManagerService: SessionManagerService
   ) {
-    this.headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.sessionManagerService.getToken(),
-    });
+    this.getHeaders();
   }
 
   // TODO, retirar o encapsulamento de todos os atributos e métodos
   getTournament(id: string): Observable<TournamentInfo> {
+    this.getHeaders();
+
     return this.http.get<TournamentInfo>(
       environment.baseUrl + '/tournaments/id/' + id,
       {
@@ -113,6 +112,8 @@ export class TournamentsService {
   postTournament(
     body: CreateTournamentRequest
   ): Observable<UpdateTournamentResponse> {
+    this.getHeaders();
+
     return this.http.post<UpdateTournamentResponse>(
       environment.baseUrl + '/tournaments/',
       body,
@@ -125,6 +126,8 @@ export class TournamentsService {
   updateTournament(
     body: UpdateTournamentRequest
   ): Observable<UpdateTournamentResponse> {
+    this.getHeaders();
+
     return this.http.patch<UpdateTournamentResponse>(
       environment.baseUrl + '/tournaments/' + body.id,
       body,
@@ -135,6 +138,8 @@ export class TournamentsService {
   }
 
   getUserTournaments(): Observable<GetTournamentsByUser> {
+    this.getHeaders();
+
     return this.http.get<GetTournamentsByUser>(
       environment.baseUrl + '/tournaments/user',
       { headers: this.headers }
@@ -142,6 +147,8 @@ export class TournamentsService {
   }
 
   getTournamentsUserIsParticipating(): Observable<GetTournamentsInvites> {
+    this.getHeaders();
+
     return this.http.get<GetTournamentsInvites>(
       environment.baseUrl + '/tournaments/manage/user',
       {
@@ -154,6 +161,8 @@ export class TournamentsService {
     id_user: string,
     id_tournament: string
   ): Observable<UpdateTournamentResponse> {
+    this.getHeaders();
+
     return this.http.post<UpdateTournamentResponse>(
       environment.baseUrl + '/tournaments/manage/invite/' + id_user,
       {
@@ -168,6 +177,8 @@ export class TournamentsService {
   getTournamentParticipants(
     id_tournament: string
   ): Observable<UserParticipant> {
+    this.getHeaders();
+
     return this.http.get<UserParticipant>(
       environment.baseUrl +
         '/tournaments/manage/users/accepted/' +
@@ -179,6 +190,8 @@ export class TournamentsService {
   }
 
   getTournamentsUserInvites(): Observable<GetTournamentsInvites> {
+    this.getHeaders();
+
     return this.http.get<GetTournamentsInvites>(
       environment.baseUrl + '/tournaments/manage/user/pending/',
       {
@@ -190,6 +203,8 @@ export class TournamentsService {
   getTournamentColumns(
     id_tournament: string
   ): Observable<TournamentColumnsResponse> {
+    this.getHeaders();
+
     return this.http.get<TournamentColumnsResponse>(
       environment.baseUrl + '/tournaments/columns/' + id_tournament,
       {
@@ -202,6 +217,8 @@ export class TournamentsService {
     id_tournament: string,
     { column1, column2, column3, column4 }: Columns
   ): Observable<UpdateTournamentColumnsResponse> {
+    this.getHeaders();
+
     return this.http.patch(
       environment.baseUrl + '/tournaments/columns/' + id_tournament,
       {
@@ -220,6 +237,8 @@ export class TournamentsService {
     id_tournament: string,
     flag: boolean
   ): Observable<UpdateTournamentColumnsResponse> {
+    this.getHeaders();
+
     return this.http.patch(
       environment.baseUrl + '/tournaments/columns/flag/' + id_tournament,
       {
@@ -234,6 +253,8 @@ export class TournamentsService {
   acceptTournamentInvite(
     id_tournament: string
   ): Observable<UpdateTournamentResponse> {
+    this.getHeaders();
+
     return this.http.patch<UpdateTournamentResponse>(
       environment.baseUrl + '/tournaments/manage/accept/' + id_tournament,
       {},
@@ -246,6 +267,8 @@ export class TournamentsService {
   refuseTournamentInvite(
     id_tournament: string
   ): Observable<UpdateTournamentResponse> {
+    this.getHeaders();
+
     return this.http.patch<UpdateTournamentResponse>(
       environment.baseUrl + '/tournaments/manage/refuse/' + id_tournament,
       {},
@@ -253,5 +276,12 @@ export class TournamentsService {
         headers: this.headers,
       }
     );
+  }
+
+  getHeaders() {
+    this.headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.sessionManagerService.getToken(),
+    });
   }
 }

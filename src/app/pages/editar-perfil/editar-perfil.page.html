@@ -27,7 +27,12 @@
   -->
   <ion-item>
     <ion-label position="stacked">Bio</ion-label>
-    <ion-textarea rows=5 [placeholder]="placeholder_bio" [(ngModel)]="bio" maxlength=156></ion-textarea>
+    <ion-textarea
+      rows="5"
+      [placeholder]="placeholder_bio"
+      [(ngModel)]="bio"
+      maxlength="156"
+    ></ion-textarea>
   </ion-item>
 
   <ion-item>
@@ -37,11 +42,17 @@
 
   <ion-item>
     <ion-label position="stacked">Data de nascimento</ion-label>
-    <ion-datetime displayFormat="DD/MM/YYYY" max={{maxDate}} [(ngModel)]="birth_date"></ion-datetime>
+    <ion-datetime
+      displayFormat="DD/MM/YYYY"
+      max="{{maxDate}}"
+      [(ngModel)]="birth_date"
+    ></ion-datetime>
   </ion-item>
 
   <ion-item>
-    <ion-button (click)="editUserInfo()" size="small" slot="end">Confirmar</ion-button>
+    <ion-button (click)="editUserInfo()" size="small" slot="end"
+      >Confirmar</ion-button
+    >
   </ion-item>
 
   <ion-text color="primary">
@@ -51,7 +62,7 @@
   <ion-item>
     <ion-chip (click)="editUserSocialInfo('Telegram', telegram)">
       <ion-avatar>
-        <img src="{{logoTelegram}}">
+        <img src="{{logoTelegram}}" />
       </ion-avatar>
       <ion-label color="dark">{{placeholder_telegram}}</ion-label>
     </ion-chip>
@@ -60,7 +71,7 @@
   <ion-item>
     <ion-chip (click)="editUserSocialInfo('Facebook', facebook)">
       <ion-avatar>
-        <img src="{{logoFacebook}}">
+        <img src="{{logoFacebook}}" />
       </ion-avatar>
       <ion-label color="dark">{{placeholder_facebook}}</ion-label>
     </ion-chip>
@@ -69,20 +80,19 @@
   <ion-item>
     <ion-chip (click)="editUserSocialInfo('Twitter', twitter)">
       <ion-avatar>
-        <img src="{{logoTwitter}}">
+        <img src="{{logoTwitter}}" />
       </ion-avatar>
       <ion-label color="dark">{{placeholder_twitter}}</ion-label>
     </ion-chip>
   </ion-item>
 
   <ion-item>
-    <ion-chip  (click)="editUserSocialInfo('Twitch', twitch)">
+    <ion-chip (click)="editUserSocialInfo('Twitch', twitch)">
       <ion-avatar>
-        <img src="{{logoTwitch}}">
+        <img src="{{logoTwitch}}" />
       </ion-avatar>
       <ion-label color="dark">{{placeholder_twitch}}</ion-label>
     </ion-chip>
-
   </ion-item>
 
   <ion-text color="primary">
@@ -91,27 +101,43 @@
 
   <ion-item>
     <ion-label>Alterar senha</ion-label>
-    <ion-button (click)="hideChangePasswordModule()" size="small">{{buttonAlterPasswordShownText}}</ion-button>
+    <ion-button (click)="hideChangePasswordModule()" size="small"
+      >{{buttonAlterPasswordShownText}}</ion-button
+    >
   </ion-item>
 
   <div *ngIf="alterPasswordShown">
     <ion-item>
       <ion-label position="stacked">Senha atual</ion-label>
-      <ion-input type="password" placeholder="********" [(ngModel)]="password_old"></ion-input>
+      <ion-input
+        type="password"
+        placeholder="********"
+        [(ngModel)]="password_old"
+      ></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Nova senha</ion-label>
-      <ion-input type="password" placeholder="********" [(ngModel)]="password_new"></ion-input>
+      <ion-input
+        type="password"
+        placeholder="********"
+        [(ngModel)]="password_new"
+      ></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Confirme nova senha</ion-label>
-      <ion-input type="password" placeholder="********" [(ngModel)]="password_confirm"></ion-input>
+      <ion-input
+        type="password"
+        placeholder="********"
+        [(ngModel)]="password_confirm"
+      ></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-button (click)="editPassword()" size="small" slot="end">Confirmar</ion-button>
+      <ion-button (click)="editPassword()" size="small" slot="end"
+        >Confirmar</ion-button
+      >
     </ion-item>
   </div>
 </ion-content>

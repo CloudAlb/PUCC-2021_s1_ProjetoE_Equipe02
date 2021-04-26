@@ -25,19 +25,20 @@ export class SeuPerfilService {
     private http: HttpClient,
     private sessionManagerService: SessionManagerService
   ) {
-    this.headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.sessionManagerService.getToken(),
-    });
+    this.getHeaders();
   }
 
   public getUser(): Observable<UserInfo> {
+    this.getHeaders();
+
     return this.http.get<UserInfo>(environment.baseUrl + '/users/', {
       headers: this.headers,
     });
   }
 
   public getUserSocial(): Observable<UserSocialResponse> {
+    this.getHeaders();
+
     return this.http.get<UserSocialResponse>(
       environment.baseUrl + '/users/social/',
       {
@@ -47,6 +48,8 @@ export class SeuPerfilService {
   }
 
   public editUser(body: EditUserInfo): Observable<MessageData> {
+    this.getHeaders();
+
     return this.http.patch<MessageData>(
       environment.baseUrl + '/users/edit/',
       body,
@@ -57,6 +60,8 @@ export class SeuPerfilService {
   }
 
   public editUserSocialInfo(body: UserSocialRequest): Observable<MessageData> {
+    this.getHeaders();
+
     return this.http.patch<MessageData>(
       environment.baseUrl + '/users/edit/social/',
       body,
@@ -67,6 +72,8 @@ export class SeuPerfilService {
   }
 
   public editPassword(body: EditUserPassword): Observable<MessageData> {
+    this.getHeaders();
+
     return this.http.patch<MessageData>(
       environment.baseUrl + '/users/edit/password/',
       body,
@@ -74,5 +81,12 @@ export class SeuPerfilService {
         headers: this.headers,
       }
     );
+  }
+
+  getHeaders() {
+    this.headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.sessionManagerService.getToken(),
+    });
   }
 }
