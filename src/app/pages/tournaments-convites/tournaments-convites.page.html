@@ -8,5 +8,14 @@
 </ion-header>
 
 <ion-content>
-  <app-card-tournament (click)="showAcceptInviteModal()" *ngFor="let tournament of tournaments" [id_tournament]="tournament.tournament.id_tournament" [name]="tournament.tournament.name" [game]="tournament.tournament.game" [description]="tournament.tournament.description" [hasPassword]="!!tournament.tournament.password"></app-card-tournament>
+  <app-card-tournament-invite
+    *ngFor="let tournament of tournaments"
+    [id_tournament]="tournament.tournament.id_tournament"
+    [name]="tournament.tournament.name"
+    [game]="tournament.tournament.game"
+    [description]="tournament.tournament.description"
+    [hasPassword]="!!tournament.tournament.password"
+
+    (invitesUpdatedEvent)="getInvites()"
+  ></app-card-tournament-invite>
 </ion-content>

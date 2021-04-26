@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { IonAlertService } from 'src/app/services/ion-alert.service';
 import { TournamentsService } from 'src/app/services/tournaments.service';
 
 @Component({
@@ -21,9 +22,5 @@ export class TournamentsConvitesPage implements OnInit {
       .subscribe((response) => {
         this.tournaments = response.data;
       });
-  }
-
-  showAcceptInviteModal() {
-    console.log('clickado');
   }
 }

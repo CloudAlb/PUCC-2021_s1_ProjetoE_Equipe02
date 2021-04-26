@@ -40,7 +40,7 @@ interface GetTournamentsInvites {
         game: string;
         description: string;
         password: string;
-      }
+      };
     }
   ];
 }
@@ -135,7 +135,10 @@ export class TournamentsService {
   }
 
   getUserTournaments(): Observable<GetTournamentsByUser> {
-    return this.http.get<GetTournamentsByUser>(environment.baseUrl + '/tournaments/user', { headers: this.headers });
+    return this.http.get<GetTournamentsByUser>(
+      environment.baseUrl + '/tournaments/user',
+      { headers: this.headers }
+    );
   }
 
   getTournamentsUserIsParticipating(): Observable<GetTournamentsInvites> {
@@ -222,6 +225,30 @@ export class TournamentsService {
       {
         flag,
       },
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  acceptTournamentInvite(
+    id_tournament: string
+  ): Observable<UpdateTournamentResponse> {
+    return this.http.patch<UpdateTournamentResponse>(
+      environment.baseUrl + '/tournaments/manage/accept/' + id_tournament,
+      {},
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  refuseTournamentInvite(
+    id_tournament: string
+  ): Observable<UpdateTournamentResponse> {
+    return this.http.patch<UpdateTournamentResponse>(
+      environment.baseUrl + '/tournaments/manage/refuse/' + id_tournament,
+      {},
       {
         headers: this.headers,
       }

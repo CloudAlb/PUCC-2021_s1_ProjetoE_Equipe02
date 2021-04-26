@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TournamentsConvitesPageRoutingModule } from './tournaments-convites-routing.module';
 
 import { TournamentsConvitesPage } from './tournaments-convites.page';
-import { CardTournamentComponent } from 'src/app/components/card-tournament/card-tournament.component';
+import { CardTournamentInviteComponent } from 'src/app/components/card-tournament-invite/card-tournament-invite.component';
 
 @NgModule({
   imports: [
@@ -16,6 +16,6 @@ import { CardTournamentComponent } from 'src/app/components/card-tournament/card
     IonicModule,
     TournamentsConvitesPageRoutingModule,
   ],
-  declarations: [TournamentsConvitesPage, CardTournamentComponent],
+  declarations: [TournamentsConvitesPage, CardTournamentInviteComponent],
 })
 export class TournamentsConvitesPageModule {}
