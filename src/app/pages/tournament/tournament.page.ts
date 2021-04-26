@@ -127,11 +127,11 @@ export class TournamentPage implements OnInit {
   }
 
   isStringEmpty(element: string) {
-    if (element != '') return false;
-    if (element != undefined) return false;
-    if (element != null) return false;
+    if (element == '') return true;
+    if (element == undefined) return true;
+    if (element == null) return true;
 
-    return true;
+    return false;
   }
 
   getTournamentInfo() {

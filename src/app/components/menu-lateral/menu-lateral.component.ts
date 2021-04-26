@@ -15,7 +15,7 @@ export class MenuLateralComponent implements OnInit {
     { title: 'Home', url: 'home', icon: 'home' },
     { title: 'Seu perfil', url: 'seu-perfil', icon: 'person' },
     { title: 'Torneios', url: '/tournament-home', icon: 'trophy' },
-    { title: 'Amigos', url: '/folder/Amigos', icon: 'heart' },
+    { title: 'Seguidores', url: '/followers', icon: 'heart' },
     { title: 'Loja', url: '/folder/Loja', icon: 'bag' },
     { title: 'Cadastro', url: '/cadastro', icon: 'add' },
     { title: 'Login', url: '/login', icon: 'add' },
@@ -40,5 +40,9 @@ export class MenuLateralComponent implements OnInit {
     this.name = name;
     this.username = username;
     if (avatar_image) this.avatarPath = avatar_image;
+  }
+
+  ionWillOpen() {
+    this.loadUserInfo();
   }
 }
