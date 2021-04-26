@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 export interface CadastroResponse {
-  message?: string,
+  message?: string;
 
   token?: {
     token: string;
-  }
+  };
 
   error?: string;
 }

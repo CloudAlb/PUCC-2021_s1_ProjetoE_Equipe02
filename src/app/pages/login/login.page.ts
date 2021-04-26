@@ -32,7 +32,7 @@ export class LoginPage implements OnInit {
     this.sessionsService
       .postLogin({ login, password })
       .subscribe((response) => {
-        if (response.status) {
+        if (!response.token) {
           this.ionToastService.presentToast(response.message, 'bottom');
           return;
         }
@@ -47,8 +47,6 @@ export class LoginPage implements OnInit {
             avatar_image: response.data.avatarImage,
           });
         });
-
-
 
         this.router
           .navigate(['/home'], { relativeTo: this.route.parent })
