@@ -14,10 +14,10 @@ export class MenuLateralComponent implements OnInit {
   public appPages = [
     { title: 'Home', url: 'home', icon: 'home' },
     { title: 'Seu perfil', url: 'seu-perfil', icon: 'person' },
-    { title: 'Criar Torneio', url: 'criar-torneio', icon: 'trophy' },
+    { title: 'Criar Torneio', url: 'tournaments-criar', icon: 'trophy' },
     { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
-    { title: 'Amigos', url: '/folder/Amigos', icon: 'heart' },
     { title: 'Loja', url: 'loja', icon: 'bag' },
+    { title: 'Seguidores', url: '/followers', icon: 'heart' },
     { title: 'Cadastro', url: '/cadastro', icon: 'add' },
     { title: 'Login', url: '/login', icon: 'add' },
   ];
@@ -41,5 +41,9 @@ export class MenuLateralComponent implements OnInit {
     this.name = name;
     this.username = username;
     if (avatar_image) this.avatarPath = avatar_image;
+  }
+
+  ionWillOpen() {
+    this.loadUserInfo();
   }
 }
