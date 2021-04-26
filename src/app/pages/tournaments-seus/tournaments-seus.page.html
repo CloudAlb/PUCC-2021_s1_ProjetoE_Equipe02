@@ -8,5 +8,5 @@
 </ion-header>
 
 <ion-content>
-  <app-card-tournament *ngFor="let tournament of tournaments" [id_tournament]="tournament.id_tournament" [name]="tournament.name" [game]="tournament.game" [description]="tournament.description" [hasPassword]="!!tournament.password"></app-card-tournament>
+  <app-card-tournament-button *ngFor="let tournament of tournaments" [id_tournament]="tournament.id_tournament" [name]="tournament.name" [game]="tournament.game" [description]="tournament.description" [hasPassword]="!!tournament.password"></app-card-tournament-button>
 </ion-content>

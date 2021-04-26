@@ -24,18 +24,18 @@
     </ion-card>
   </ion-header> -->
 
-  <ion-list *ngFor="let _item of itemsPage">
+  <ion-list *ngFor="let publication of publications">
     <ion-card>
       <ion-card-header>
         <ion-card-title>
           <ion-icon class="user-icon" size="large" name="person-circle-outline"></ion-icon>
-          <span class="icon-text">{{_item}}</span>
+          <span class="icon-text">{{publication.tournament.user.name}}</span>
         </ion-card-title>
-        <ion-card-subtitle>{{nameCamp}}</ion-card-subtitle>
+        <ion-card-subtitle>{{publication.tournament.name}}</ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
-        Jogo: {{jogoCamp}}
+        Jogo: {{publication.tournament.game}}
         <!-- <br>Keep close to Nature's heart... and break clear away, once in awhile,
         and climb a mountain or spend a week in the woods. Wash your spirit clean. -->
       </ion-card-content>
@@ -53,7 +53,7 @@
 
   <ion-fab id="tournament_button" slot="fixed" edge="true" horizontal="end">
     <ion-fab-button>
-      <ion-icon (click)="presentAlertRadio()" name="add-outline"></ion-icon>
+      <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 

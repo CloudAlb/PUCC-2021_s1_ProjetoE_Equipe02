@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TournamentsSeusPageRoutingModule } from './tournaments-seus-routing.module';
 
 import { TournamentsSeusPage } from './tournaments-seus.page';
-import { CardTournamentComponent } from 'src/app/components/card-tournament/card-tournament.component';
+import { CardTournamentButtonComponent } from 'src/app/components/card-tournament-with-button/card-tournament-button.component';
 
 @NgModule({
   imports: [
@@ -16,6 +16,6 @@ import { CardTournamentComponent } from 'src/app/components/card-tournament/card
     IonicModule,
     TournamentsSeusPageRoutingModule,
   ],
-  declarations: [TournamentsSeusPage, CardTournamentComponent]
+  declarations: [TournamentsSeusPage, CardTournamentButtonComponent]
 })
 export class TournamentsSeusPageModule {}

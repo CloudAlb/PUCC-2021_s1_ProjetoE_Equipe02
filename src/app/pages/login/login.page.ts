@@ -12,8 +12,8 @@ import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  private login = "hzinhu";
-  private password = "admin123";
+  private login = "";
+  private password = "";
 
   constructor(
     private sessionManagerService: SessionManagerService,

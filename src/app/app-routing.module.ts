@@ -6,7 +6,7 @@ const routes: Routes = [
     path: '',
     // TODO, voltar
     // redirectTo: 'login',
-    redirectTo: 'tournament-home',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {

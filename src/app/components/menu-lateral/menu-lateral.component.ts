@@ -15,7 +15,7 @@ export class MenuLateralComponent implements OnInit {
     { title: 'Home', url: 'home', icon: 'home' },
     { title: 'Seu perfil', url: 'seu-perfil', icon: 'person' },
     { title: 'Criar Torneio', url: 'criar-torneio', icon: 'trophy' },
-    { title: 'Torneios', url: '/tournament', icon: 'trophy' },
+    { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
     { title: 'Amigos', url: '/folder/Amigos', icon: 'heart' },
     { title: 'Loja', url: 'loja', icon: 'bag' },
     { title: 'Cadastro', url: '/cadastro', icon: 'add' },
