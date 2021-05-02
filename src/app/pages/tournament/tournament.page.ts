@@ -780,7 +780,7 @@ export class TournamentPage implements OnInit {
               this.column2[0] = kickedParticipantName + ' (kickado)';
               this.column3[0] = this.column2[1];
               this.setParticipantInBracket('s1', this.column2[0]);
-              this.setParticipantInBracket('w', this.column3[0]);
+              this.setParticipantInBracket('w', this.column2[1]);
               // this.saveTournament();
             } else {
               // TODO
@@ -797,7 +797,7 @@ export class TournamentPage implements OnInit {
               this.column2[1] = kickedParticipantName + ' (kickado)';
               this.column3[0] = this.column2[0];
               this.setParticipantInBracket('s2', this.column2[1]);
-              this.setParticipantInBracket('w', this.column3[0]);
+              this.setParticipantInBracket('w', this.column2[0]);
               // this.saveTournament();
             } else {
               // TODO
@@ -814,7 +814,7 @@ export class TournamentPage implements OnInit {
               this.column1[0] = kickedParticipantName + ' (kickado)';
               this.column2[0] = this.column1[1];
               this.setParticipantInBracket('p1', this.column1[0]);
-              this.setParticipantInBracket('s1', this.column2[0]);
+              this.setParticipantInBracket('s1', this.column1[1]);
               // this.saveTournament();
             } else {
               // TODO
@@ -831,7 +831,7 @@ export class TournamentPage implements OnInit {
               this.column1[1] = kickedParticipantName + ' (kickado)';
               this.column2[0] = this.column1[0];
               this.setParticipantInBracket('p2', this.column1[1]);
-              this.setParticipantInBracket('p1', this.column1[0]);
+              this.setParticipantInBracket('s1', this.column1[0]);
               // this.saveTournament();
             } else {
               // TODO
@@ -847,8 +847,8 @@ export class TournamentPage implements OnInit {
 
               this.column1[2] = kickedParticipantName + ' (kickado)';
               this.column2[1] = this.column1[3];
-              this.setParticipantInBracket('p4', this.column1[3]);
               this.setParticipantInBracket('p3', this.column1[2]);
+              this.setParticipantInBracket('s2', this.column1[3]);
               // this.saveTournament();
             } else {
               // TODO
@@ -864,8 +864,8 @@ export class TournamentPage implements OnInit {
 
               this.column1[3] = kickedParticipantName + ' (kickado)';
               this.column2[1] = this.column1[2];
-              this.setParticipantInBracket('p3', this.column1[2]);
-              this.setParticipantInBracket('p2', this.column1[1]);
+              this.setParticipantInBracket('p4', this.column1[3]);
+              this.setParticipantInBracket('s2', this.column1[2]);
               // this.saveTournament();
             } else {
               // TODO
@@ -874,6 +874,9 @@ export class TournamentPage implements OnInit {
             return;
           }
         });
+
+        // console.log(this.column1);
+        // console.log(this.column2);
       });
   }
 }
