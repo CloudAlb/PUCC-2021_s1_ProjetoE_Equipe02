@@ -21,8 +21,8 @@ export class DataFilterService {
       }
 
       if (
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.username.toLowerCase().includes(searchTerm.toLowerCase())
+        item.name.toUpperCase().includes(searchTerm.toUpperCase()) ||
+        item.username.toUpperCase().includes(searchTerm.toUpperCase())
       )
         return true;
 

@@ -171,10 +171,13 @@ export class TournamentPage implements OnInit {
   }
 
   async createInviteParticipantsModal() {
+    const { id_user } = this.localStorageService.getUserInfo();
+
     const modal = await this.modalController.create({
       component: InviteParticipantsPage,
       componentProps: {
         id_tournament: this.route.snapshot.paramMap.get('id'),
+        logged_user_id: id_user,
       },
     });
 

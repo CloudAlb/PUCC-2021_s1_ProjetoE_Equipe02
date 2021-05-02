@@ -12,6 +12,16 @@ interface ResponseBooleanMessageOrErrors {
   status?: 'error';
 }
 
+interface ResponseTournamentUsersDataOrErrors {
+  data?: {
+    id_user: string;
+    name: string;
+    username: string;
+  }[];
+
+  status?: 'error';
+}
+
 interface CreateTournamentRequest {
   name: string;
   game: string;
@@ -65,6 +75,8 @@ interface UserParticipant {
   ];
 
   message?: string;
+
+  status?: 'error';
 }
 
 interface Columns {
@@ -338,6 +350,17 @@ export class TournamentsService {
         id_user,
         id_tournament,
       },
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  getTournamentKickedParticipants(
+    id_tournament: String
+  ): Observable<ResponseTournamentUsersDataOrErrors> {
+    return this.http.get<ResponseTournamentUsersDataOrErrors>(
+      environment.baseUrl + '/tournaments/manage/kicked/' + id_tournament,
       {
         headers: this.headers,
       }
