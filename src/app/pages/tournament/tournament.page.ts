@@ -278,7 +278,7 @@ export class TournamentPage implements OnInit {
           return true;
         });
 
-        // resto da função original
+        // TODO, resto da função original
         if (bracket.match('p[1-4]')) {
           // cria um array com os participantes selecionáveis
           // somente para a coluna com os participantes
@@ -288,17 +288,29 @@ export class TournamentPage implements OnInit {
             }
           );
 
-          for (let participant in participantsNames) {
+          const participantsNamesResolved = await Promise.all(
+            participantsNames
+          );
+
+          for (let participant in participantsNamesResolved) {
             let flagParticipantIsInBracket = 0;
 
             for (let bracket in this.brackets) {
-              if (participantsNames[participant] == this.brackets[bracket])
+              // console.log(participantsNamesResolved[participant]);
+              // console.log(this.brackets[bracket]);
+              // console.log(
+              //   participantsNamesResolved[participant] == this.brackets[bracket]
+              // );
+
+              if (
+                participantsNamesResolved[participant] == this.brackets[bracket]
+              )
                 flagParticipantIsInBracket = 1;
             }
 
             if (flagParticipantIsInBracket == 0) {
               this.selectableParticipantsNamesArray.push(
-                await participantsNames[participant]
+                participantsNamesResolved[participant]
               );
             }
           }
@@ -306,19 +318,25 @@ export class TournamentPage implements OnInit {
 
         if (this.flagParticipantsChosen) {
           if (bracket == 's1') {
-            this.selectableParticipantsNamesArray.push(this.column1[0]);
-            this.selectableParticipantsNamesArray.push(this.column1[1]);
+            if (!this.column1[0].includes('kickado'))
+              this.selectableParticipantsNamesArray.push(this.column1[0]);
+            if (!this.column1[1].includes('kickado'))
+              this.selectableParticipantsNamesArray.push(this.column1[1]);
           }
 
           if (bracket == 's2') {
-            this.selectableParticipantsNamesArray.push(this.column1[2]);
-            this.selectableParticipantsNamesArray.push(this.column1[3]);
+            if (!this.column1[2].includes('kickado'))
+              this.selectableParticipantsNamesArray.push(this.column1[2]);
+            if (!this.column1[3].includes('kickado'))
+              this.selectableParticipantsNamesArray.push(this.column1[3]);
           }
         }
 
         if (bracket == 'w' && this.flagSemifinalistsChosen) {
-          this.selectableParticipantsNamesArray.push(this.column2[0]);
-          this.selectableParticipantsNamesArray.push(this.column2[1]);
+          if (!this.column2[0].includes('kickado'))
+            this.selectableParticipantsNamesArray.push(this.column2[0]);
+          if (!this.column2[1].includes('kickado'))
+            this.selectableParticipantsNamesArray.push(this.column2[1]);
         }
 
         // se tudo isso resultou num vetor vazio
@@ -625,6 +643,9 @@ export class TournamentPage implements OnInit {
         ) {
           this.flagSemifinalistsChosen = true;
         }
+
+        // TODO, não deu pra fazer no ngOnInit, então fiz aqui.
+        this.adjustBracketsAfterKickedUser();
       });
   }
 
@@ -720,6 +741,139 @@ export class TournamentPage implements OnInit {
         });
 
         await modal.present();
+
+        await modal.onDidDismiss();
+        // aqui deve estar uma função que ajeita as chaves se alguém tiver sido kickado
+        // TODO, aqui deve ter uma tratativa para executar o onInit só se alguém tiver sido kickado (Input e Output)
+        this.ngOnInit();
+        this.adjustBracketsAfterKickedUser();
+      });
+  }
+
+  // TODO, desativar o botão de kickar se o torneio tiver sido encerrado
+  adjustBracketsAfterKickedUser() {
+    this.tournamentsService
+      .getTournamentKickedParticipants(this.tournamentInfo.id_tournament)
+      .subscribe(async (response) => {
+        if (response.status == 'error') {
+          await this.ionToastService.presentToast(
+            'An error has occured.',
+            'middle'
+          );
+          return;
+        }
+
+        const tournamentKickedParticipants = response.data;
+
+        let tournamentKickedUsersNames: String[] = [];
+
+        tournamentKickedParticipants.map((element) => {
+          tournamentKickedUsersNames.push(element.name);
+        });
+
+        tournamentKickedUsersNames.forEach((kickedParticipantName) => {
+          if (this.column2[0].includes(kickedParticipantName.toString())) {
+            console.log('s1 foi kickado');
+            if (!this.isStringEmpty(this.column2[1])) {
+              // passar o s2 pra w e salvar torneio
+
+              this.column2[0] = kickedParticipantName + ' (kickado)';
+              this.column3[0] = this.column2[1];
+              this.setParticipantInBracket('s1', this.column2[0]);
+              this.setParticipantInBracket('w', this.column3[0]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column2[1].includes(kickedParticipantName.toString())) {
+            console.log('s2 foi kickado');
+            if (!this.isStringEmpty(this.column2[0])) {
+              // passar o s1 pra w e salvar torneio
+
+              this.column2[1] = kickedParticipantName + ' (kickado)';
+              this.column3[0] = this.column2[0];
+              this.setParticipantInBracket('s2', this.column2[1]);
+              this.setParticipantInBracket('w', this.column3[0]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column1[0].includes(kickedParticipantName.toString())) {
+            console.log('p1 foi kickado');
+            if (!this.isStringEmpty(this.column1[1])) {
+              // passar o p2 pra s1 e salvar torneio
+
+              this.column1[0] = kickedParticipantName + ' (kickado)';
+              this.column2[0] = this.column1[1];
+              this.setParticipantInBracket('p1', this.column1[0]);
+              this.setParticipantInBracket('s1', this.column2[0]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column1[1].includes(kickedParticipantName.toString())) {
+            console.log('p2 foi kickado');
+            if (!this.isStringEmpty(this.column1[0])) {
+              // passar o p1 pra s1 e salvar torneio
+
+              this.column1[1] = kickedParticipantName + ' (kickado)';
+              this.column2[0] = this.column1[0];
+              this.setParticipantInBracket('p2', this.column1[1]);
+              this.setParticipantInBracket('p1', this.column1[0]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column1[2].includes(kickedParticipantName.toString())) {
+            console.log('p3 foi kickado');
+            if (!this.isStringEmpty(this.column1[3])) {
+              // passar o p4 pra s2 e salvar torneio
+
+              this.column1[2] = kickedParticipantName + ' (kickado)';
+              this.column2[1] = this.column1[3];
+              this.setParticipantInBracket('p4', this.column1[3]);
+              this.setParticipantInBracket('p3', this.column1[2]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column1[3].includes(kickedParticipantName.toString())) {
+            console.log('p4 foi kickado');
+            if (!this.isStringEmpty(this.column1[2])) {
+              // passar o p3 pra s2 e salvar torneio
+
+              this.column1[3] = kickedParticipantName + ' (kickado)';
+              this.column2[1] = this.column1[2];
+              this.setParticipantInBracket('p3', this.column1[2]);
+              this.setParticipantInBracket('p2', this.column1[1]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+        });
       });
   }
 }
