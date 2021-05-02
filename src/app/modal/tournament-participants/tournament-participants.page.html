@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Participantes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Voltar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-card-seguidor *ngFor="let participant of participants" [id_user]="participant.id_user" [name]="participant.name"
+    [username]="participant.username" [avatar_image]="participant.avatar_image"></app-card-seguidor>
+</ion-content>

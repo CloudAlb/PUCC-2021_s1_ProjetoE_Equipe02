@@ -4,8 +4,6 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    // TODO, voltar
-    // redirectTo: 'login',
     redirectTo: 'login',
     pathMatch: 'full',
   },
@@ -20,14 +18,14 @@ const routes: Routes = [
       import('./pages/home/home.module').then((m) => m.HomePageModule),
   },
   {
-    path: 'seu-perfil',
+    path: 'profile/:id',
     loadChildren: () =>
       import('./pages/seu-perfil/seu-perfil.module').then(
         (m) => m.SeuPerfilPageModule
       ),
   },
   {
-    path: 'editar-perfil',
+    path: 'editar-perfil/:id',
     loadChildren: () =>
       import('./pages/editar-perfil/editar-perfil.module').then(
         (m) => m.EditarPerfilPageModule
@@ -42,11 +40,15 @@ const routes: Routes = [
   },
   {
     path: 'criar-torneio',
-    loadChildren: () => import('./pages/criar-torneio/criar-torneio.module').then( m => m.CriarTorneioPageModule)
+    loadChildren: () =>
+      import('./pages/criar-torneio/criar-torneio.module').then(
+        (m) => m.CriarTorneioPageModule
+      ),
   },
   {
     path: 'loja',
-    loadChildren: () => import('./pages/loja/loja.module').then( m => m.LojaPageModule)
+    loadChildren: () =>
+      import('./pages/loja/loja.module').then((m) => m.LojaPageModule),
   },
   {
     path: 'tournament',
@@ -102,6 +104,24 @@ const routes: Routes = [
         (m) => m.TournamentsConvitesPageModule
       ),
   },
+  {
+    path: 'logout',
+    loadChildren: () =>
+      import('./pages/logout/logout.module').then((m) => m.LogoutPageModule),
+  },
+  {
+    path: 'user-colocations',
+    loadChildren: () => import('./modal/user-colocations/user-colocations.module').then( m => m.UserColocationsPageModule)
+  },
+  {
+    path: 'seguidores/:id',
+    loadChildren: () => import('./pages/seguidores/seguidores.module').then( m => m.SeguidoresPageModule)
+  },  {
+    path: 'tournament-participants',
+    loadChildren: () => import('./modal/tournament-participants/tournament-participants.module').then( m => m.TournamentParticipantsPageModule)
+  },
+
+
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 export interface UserSocialResponse {
-  data: {
+  data?: {
     telegram: string;
     facebook: string;
     twitter: string;

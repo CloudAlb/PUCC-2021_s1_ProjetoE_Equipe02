@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SessionManagerService } from './session-manager.service';
 
 interface localUserData {
   id_user: string;
@@ -8,13 +9,12 @@ interface localUserData {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class LocalStorageService {
   private storage: Storage;
 
-  constructor() {
+  constructor(private sessionManagerService: SessionManagerService) {
     this.storage = window.localStorage;
   }
 
@@ -50,19 +50,27 @@ export class LocalStorageService {
   }
 
   setUserInfo({ id_user, name, username, avatar_image }: localUserData) {
-    this.set("user.id_user", id_user);
-    this.set("user.name", name);
-    this.set("user.username", username);
-    if (avatar_image) this.set("user.avatar_image", avatar_image);
+    this.set('user.id_user', id_user);
+    this.set('user.name', name);
+    this.set('user.username', username);
+    if (avatar_image) this.set('user.avatar_image', avatar_image);
   }
 
   getUserInfo(): localUserData {
     return {
-      id_user: this.get("user.id_user"),
-      name: this.get("user.name"),
-      username: this.get("user.username"),
+      id_user: this.get('user.id_user'),
+      name: this.get('user.name'),
+      username: this.get('user.username'),
       // TODO, consertar depois
       // avatar: this.get("user.avatar_image")
     };
+  }
+
+  clearUserInfo() {
+    this.remove('user.id_user');
+    this.remove('user.name');
+    this.remove('user.username');
+    this.remove('user.avatar_image');
+    this.remove('token');
   }
 }

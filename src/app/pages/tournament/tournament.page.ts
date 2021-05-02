@@ -11,6 +11,15 @@ import { IonAlertService } from 'src/app/services/ion-alert.service';
 import { IonToastService } from 'src/app/services/ion-toast.service';
 import { TournamentsService } from 'src/app/services/tournaments.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { UsersService } from 'src/app/services/users.service';
+import { TournamentParticipantsPage } from 'src/app/modal/tournament-participants/tournament-participants.page';
+
+interface UserData {
+  id_user: string;
+  name: string;
+  username: string;
+  avatar_image: string;
+}
 
 interface TournamentInfo {
   id_tournament: string;
@@ -88,7 +97,9 @@ export class TournamentPage implements OnInit {
     private ionToastService: IonToastService,
     private pickerController: PickerController,
     private ionAlertService: IonAlertService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+
+    private usersService: UsersService
   ) {}
 
   ngOnInit() {
@@ -465,6 +476,8 @@ export class TournamentPage implements OnInit {
     this.flagWinnerChosen = true;
     this.flagWinnerSelected = false;
     this.saveTournament();
+    this.endTournament();
+    this.giveUserCoins();
   }
 
   async showSaveTournamentAlert() {
@@ -557,6 +570,15 @@ export class TournamentPage implements OnInit {
           this.column4 = response.data.column4.split(',');
         }
 
+        if (response.data.tournament_ended) {
+          this.flagParticipantsChosen = true;
+          this.flagSemifinalistsChosen = true;
+          this.flagTournamentInitialized = true;
+          this.flagWinnerChosen = true;
+
+          return;
+        }
+
         // para habilitar os botões de inicializar torneio
         // então, se o torneio já foi inicializado, não precisa ser executado
         if (!this.flagTournamentInitialized) {
@@ -588,5 +610,81 @@ export class TournamentPage implements OnInit {
         this.loadTournamentColumns();
       });
     }
+  }
+
+  giveUserCoins() {
+    this.tournamentsService
+      .getTournamentParticipants(this.tournamentInfo.id_tournament)
+      .subscribe((response) => {
+        const participants = response.data;
+
+        let semifinalist: string;
+
+        if (this.brackets.w != this.brackets.s1)
+          semifinalist = this.brackets.s1;
+        else semifinalist = this.brackets.s2;
+
+        let sGotCoins = false;
+        let wGotCoins = false;
+
+        participants.map((participant) => {
+          if (!sGotCoins && participant.name == semifinalist) {
+            this.usersService
+              .addCoins(participant.id_user, 5)
+              .subscribe((response) => {
+                if (response.status == 'error') {
+                  return;
+                }
+
+                sGotCoins = true;
+              });
+          }
+
+          if (!wGotCoins && participant.name == this.brackets.w) {
+            this.usersService
+              .addCoins(participant.id_user, 10)
+              .subscribe((response) => {
+                if (response.status == 'error') {
+                  return;
+                }
+
+                wGotCoins = true;
+              });
+          }
+
+          if (sGotCoins && wGotCoins) {
+            return;
+          }
+        });
+      });
+  }
+
+  endTournament() {
+    this.tournamentsService
+      .endTournament(this.tournamentInfo.id_tournament)
+      .subscribe();
+  }
+
+  async createParticipantsListModal() {
+    let participants: UserData[] = [];
+
+    this.tournamentsService
+      .getTournamentParticipants(this.tournamentInfo.id_tournament)
+      .subscribe(async (response) => {
+        if (response.message) {
+          this.ionToastService.presentToast(response.message);
+        }
+
+        participants = response.data;
+
+        const modal = await this.modalController.create({
+          component: TournamentParticipantsPage,
+          componentProps: {
+            participants: participants,
+          },
+        });
+
+        await modal.present();
+      });
   }
 }

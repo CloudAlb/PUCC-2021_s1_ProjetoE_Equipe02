@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ResponseMessageOrErrors } from '../models/response-message-or-error';
 import { TournamentInfo } from '../models/tournament-info';
 import { SessionManagerService } from './session-manager.service';
 
@@ -25,6 +26,8 @@ interface UpdateTournamentResponse {
   message?: string;
 
   error?: string;
+
+  status?: string;
 }
 
 interface GetTournamentsByUser {
@@ -73,6 +76,7 @@ interface TournamentColumnsResponse {
     column4: string | null | undefined;
 
     tournament_initialized: boolean;
+    tournament_ended: boolean;
   };
 
   message?: string;
@@ -95,6 +99,13 @@ export class TournamentsService {
     private sessionManagerService: SessionManagerService
   ) {
     this.getHeaders();
+  }
+
+  getHeaders() {
+    this.headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.sessionManagerService.getToken(),
+    });
   }
 
   // TODO, retirar o encapsulamento de todos os atributos e métodos
@@ -278,10 +289,15 @@ export class TournamentsService {
     );
   }
 
-  getHeaders() {
-    this.headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.sessionManagerService.getToken(),
-    });
+  endTournament(id_tournament: string) {
+    this.getHeaders();
+
+    return this.http.patch<ResponseMessageOrErrors>(
+      environment.baseUrl + '/tournaments/end/' + id_tournament,
+      {},
+      {
+        headers: this.headers,
+      }
+    );
   }
 }

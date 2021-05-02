@@ -7,17 +7,17 @@
 <ion-content [fullscreen]="true">
   <form [formGroup]="fGroup">
     <ion-item>
+      <ion-label position="floating">Usuário</ion-label>
+      <ion-input clearInput type="text" formControlName="usuario" [(ngModel)]="username"></ion-input>
+    </ion-item>
+
+    <ion-item>
       <ion-label position="floating">Nome Completo</ion-label>
       <ion-input clearInput type="text" formControlName="nome" [(ngModel)]="name"></ion-input>
       <!-- Mostra a mensagem de erro
         <div *ngIf="fGroup.controls.nome.errors">
         <p *ngIf="fGroup.controls.nome.errors.required"> Esse campo é obrigatório</p>
       </div> -->
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Usuário</ion-label>
-      <ion-input clearInput type="text" formControlName="usuario" [(ngModel)]="username"></ion-input>
     </ion-item>
 
     <ion-item>

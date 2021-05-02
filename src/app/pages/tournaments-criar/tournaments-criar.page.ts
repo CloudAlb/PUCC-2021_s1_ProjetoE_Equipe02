@@ -24,7 +24,28 @@ export class TournamentsCriarPage implements OnInit {
 
   ngOnInit() {}
 
-  criarTournament() {
+  isStringEmpty(element: string) {
+    if (element == '') return true;
+    if (element == undefined) return true;
+    if (element == null) return true;
+
+    return false;
+  }
+
+  async criarTournament() {
+    if (
+      this.isStringEmpty(this.name) ||
+      this.isStringEmpty(this.game) ||
+      this.isStringEmpty(this.description)
+    ) {
+      await this.ionToastService.presentToast(
+        'Aviso: ainda há campos vazios!',
+        'bottom'
+      );
+
+      return;
+    }
+
     this.tournamentService
       .postTournament({
         name: this.name,
@@ -33,19 +54,16 @@ export class TournamentsCriarPage implements OnInit {
         password: this.password,
         number_participants: this.number_participants,
       })
-      .subscribe((response) => {
-        if (response.error) {
+      .subscribe(async (response) => {
+        if (response.message) {
           this.ionToastService.presentToast(response.error, 'middle');
         }
 
-        this.ionToastService.presentToast(response.message, 'middle');
+        await this.ionToastService.presentToast(response.message, 'middle');
 
-        /*
         this.router
-          .navigate(['/tournament'], { relativeTo: this.route.parent })
+          .navigate(['/tournaments-seus'], { relativeTo: this.route.parent })
           .then(() => {});
-      });
-      */
       });
   }
 }

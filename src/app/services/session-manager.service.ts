@@ -7,7 +7,7 @@ import { UserInfo } from '../models/user-info';
 export class SessionManagerService {
   userInfo = {} as UserInfo;
 
-  constructor() { }
+  constructor() {}
 
   setToken(token: string) {
     localStorage.setItem('token', token);

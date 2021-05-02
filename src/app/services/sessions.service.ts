@@ -6,6 +6,7 @@ import { LocalStorageService } from './local-storage.service';
 import { SeuPerfilService } from './seu-perfil.service';
 
 interface localUserData {
+  id_user: string;
   name: string;
   username: string;
   avatar_image?: string;
@@ -14,7 +15,8 @@ interface localUserData {
 interface LoginResponse {
   token?: {
     token: string;
-  }
+    id_user: string;
+  };
 
   status?: string;
   message?: string;
@@ -26,20 +28,23 @@ interface Request {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SessionsService {
-
-  constructor(private http: HttpClient,
-    private localStorageService: LocalStorageService) { }
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {}
 
   public postLogin(body: Request): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(environment.baseUrl + "/sessions", body);
+    return this.http.post<LoginResponse>(
+      environment.baseUrl + '/sessions',
+      body
+    );
   }
 
   public getUserData(): localUserData {
     // TODO, tratativa de erro?
     return this.localStorageService.getUserInfo();
   }
-
 }

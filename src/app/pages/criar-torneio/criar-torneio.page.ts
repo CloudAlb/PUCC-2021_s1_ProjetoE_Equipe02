@@ -9,38 +9,36 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CriarTorneioPage implements OnInit {
   public torneio = {
-    nome:'',
-    jogo:'',
-    num_times:'',
-    descricao:''
-  }
+    nome: '',
+    jogo: '',
+    num_times: '',
+    descricao: '',
+  };
 
   public fGroup: FormGroup;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private fBuilder: FormBuilder) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private fBuilder: FormBuilder
+  ) {
     this.fGroup = this.fBuilder.group({
-      'nome': [null, Validators.compose([
-        Validators.required
-      ])],
-      'jogo': [null, Validators.compose([
-        Validators.required
-      ])],
-      'num_times': [null, Validators.compose([
-        Validators.required,
-        Validators.min(2),
-        Validators.max(6)
-      ])],
-      'descricao': [null, Validators.compose([
-
-      ])]
+      nome: [null, Validators.compose([Validators.required])],
+      jogo: [null, Validators.compose([Validators.required])],
+      num_times: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.min(2),
+          Validators.max(6),
+        ]),
+      ],
+      descricao: [null, Validators.compose([Validators.required])],
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   submitForm() {
-    console.log(this.fGroup.value)
+    console.log(this.fGroup.value);
   }
 }

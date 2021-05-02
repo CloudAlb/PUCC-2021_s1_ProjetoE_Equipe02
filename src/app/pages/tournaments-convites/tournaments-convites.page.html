@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content (ionViewWillEnter)="ngOnInit()">
   <app-card-tournament-invite
     *ngFor="let tournament of tournaments"
     [id_tournament]="tournament.tournament.id_tournament"

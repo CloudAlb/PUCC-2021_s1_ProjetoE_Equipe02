@@ -7,23 +7,44 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content (ionViewWillEnter)="ngOnInit()">
   <!-- botão de ações -->
-  <!-- TODO só ser exibido se for o usuário visualizando o próprio perfil (só é possível com implementação de JWT e sessões) -->
-  <ion-fab *ngIf=user vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="dark" [routerLink]="['/editar-perfil']">
+
+  <!-- seguir pessoa -->
+  <ion-fab *ngIf="!flagIsOwnUser && !flagUserIsFollowing" (click)="followUser()" vertical="bottom" horizontal="start"
+    slot="fixed">
+    <ion-fab-button color="dark">
+      <img src="../../../assets/icons/follow.png" alt="">
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- deixar de seguir pessoa -->
+  <ion-fab *ngIf="!flagIsOwnUser && flagUserIsFollowing" (click)="unfollowUser()" vertical="bottom" horizontal="start"
+    slot="fixed">
+    <ion-fab-button color="dark">
+      <img src="../../../assets/icons/unfollow.png" alt="">
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab *ngIf="flagIsOwnUser" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="dark" routerLink="{{editarPerfilLink}}">
       <ion-icon name="create-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" (click)="showColocationsModal()">
+    <ion-fab-button color="dark">
+      <img src="../../../assets/icons/leaderboard.png" alt="">
+    </ion-fab-button>
+  </ion-fab>
+
   <div class="imagens">
-    <img src={{backgroundPath}} alt="Background" class="background">
-    <img src={{avatarPath}} alt="Avatar" class="avatar" />
+    <img src="{{backgroundPath}}" alt="Background" class="background" />
+    <img src="{{avatarPath}}" alt="Avatar" class="avatar" />
   </div>
 
   <div class="informacoes" *ngIf="user">
     <ion-grid>
-
       <ion-card>
         <ion-card-header>
           <ion-card-subtitle>@{{user.data.username}}</ion-card-subtitle>
@@ -73,15 +94,11 @@
         <ion-card-header>
           <ion-card-subtitle>Redes sociais</ion-card-subtitle>
           <ion-card-title>
-
             <app-social-card *ngFor="let social of socials" [social]="social.social" [username]="social.username">
             </app-social-card>
-
           </ion-card-title>
         </ion-card-header>
       </ion-card>
     </div>
-
   </div>
-
 </ion-content>

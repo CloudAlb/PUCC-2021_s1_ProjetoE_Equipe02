@@ -45,7 +45,10 @@ export class InviteParticipantsPage implements OnInit {
   }
 
   getSearchData() {
-    this.filteredUsers = this.dataFilterService.filterItems(this.users, this.searchTerm);
+    this.filteredUsers = this.dataFilterService.filterItems(
+      this.users,
+      this.searchTerm
+    );
   }
 
   inviteUser(id_user: string, name: string) {
@@ -62,9 +65,8 @@ export class InviteParticipantsPage implements OnInit {
             this.tournamentsService
               .inviteUserToTournament(id_user, this.id_tournament)
               .subscribe((response) => {
-                console.log(response);
-                if (response.error) {
-                  this.ionToastService.presentToast('Houve um erro.', 'bottom');
+                if (response.status == 'error') {
+                  this.ionToastService.presentToast(response.message, 'bottom');
                   return;
                 }
 
