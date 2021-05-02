@@ -6,6 +6,12 @@ import { ResponseMessageOrErrors } from '../models/response-message-or-error';
 import { TournamentInfo } from '../models/tournament-info';
 import { SessionManagerService } from './session-manager.service';
 
+interface ResponseBooleanMessageOrErrors {
+  message?: boolean;
+
+  status?: 'error';
+}
+
 interface CreateTournamentRequest {
   name: string;
   game: string;
@@ -289,12 +295,49 @@ export class TournamentsService {
     );
   }
 
-  endTournament(id_tournament: string) {
+  endTournament(id_tournament: string): Observable<ResponseMessageOrErrors> {
     this.getHeaders();
 
     return this.http.patch<ResponseMessageOrErrors>(
       environment.baseUrl + '/tournaments/end/' + id_tournament,
       {},
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  kickParticipant(
+    id_user: string,
+    id_tournament: string
+  ): Observable<ResponseMessageOrErrors> {
+    this.getHeaders();
+
+    return this.http.patch<ResponseMessageOrErrors>(
+      environment.baseUrl + '/tournaments/manage/kick',
+      {
+        id_user,
+        id_tournament,
+      },
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  isParticipantKicked(
+    id_user: string,
+    id_tournament: string
+  ): Observable<ResponseBooleanMessageOrErrors> {
+    this.getHeaders();
+
+    // TODO, não deveria ser post
+    return this.http.post<ResponseBooleanMessageOrErrors>(
+      environment.baseUrl + '/tournaments/manage/iskicked',
+      {
+        id_user,
+        id_tournament,
+      },
       {
         headers: this.headers,
       }

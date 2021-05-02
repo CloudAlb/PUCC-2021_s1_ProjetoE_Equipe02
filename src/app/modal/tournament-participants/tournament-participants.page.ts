@@ -15,6 +15,7 @@ interface UserData {
 })
 export class TournamentParticipantsPage implements OnInit {
   @Input() participants: UserData[];
+  @Input() id_tournament: string;
 
   constructor(private modalController: ModalController) {}
 

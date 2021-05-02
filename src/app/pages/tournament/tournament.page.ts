@@ -681,6 +681,7 @@ export class TournamentPage implements OnInit {
           component: TournamentParticipantsPage,
           componentProps: {
             participants: participants,
+            id_tournament: this.tournamentInfo.id_tournament
           },
         });
 

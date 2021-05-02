@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <app-card-seguidor *ngFor="let participant of participants" [id_user]="participant.id_user" [name]="participant.name"
-    [username]="participant.username" [avatar_image]="participant.avatar_image"></app-card-seguidor>
+  <app-card-tournament-participant *ngFor="let participant of participants" [id_tournament]="id_tournament"
+    [id_user]="participant.id_user" [name]="participant.name" [username]="participant.username"
+    [avatar_image]="participant.avatar_image"></app-card-tournament-participant>
 </ion-content>
