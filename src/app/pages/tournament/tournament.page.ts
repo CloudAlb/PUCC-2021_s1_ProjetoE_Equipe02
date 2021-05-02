@@ -251,59 +251,90 @@ export class TournamentPage implements OnInit {
 
     this.selectableParticipantsNamesArray = [];
 
-    if (bracket.match('p[1-4]')) {
-      // cria um array com os participantes selecionáveis
-      // somente para a coluna com os participantes
-      const participantsNames = this.participantsArray.map((participant) => {
-        return participant.name;
-      });
+    let tournamentKickedUsers: {
+      id_user: string;
+      name: string;
+      username: string;
+    }[];
 
-      for (let participant in participantsNames) {
-        let flagParticipantIsInBracket = 0;
-
-        for (let bracket in this.brackets) {
-          if (participantsNames[participant] == this.brackets[bracket])
-            flagParticipantIsInBracket = 1;
+    this.tournamentsService
+      .getTournamentKickedParticipants(this.tournamentInfo.id_tournament)
+      .subscribe(async (response) => {
+        if (response.status == 'error') {
+          return;
         }
 
-        if (flagParticipantIsInBracket == 0) {
-          this.selectableParticipantsNamesArray.push(
-            participantsNames[participant]
+        tournamentKickedUsers = response.data;
+
+        let tournamentKickedUsersIds: String[] = [];
+
+        tournamentKickedUsers.map((element) => {
+          tournamentKickedUsersIds.push(element.id_user);
+        });
+
+        this.participantsArray = this.participantsArray.filter((element) => {
+          if (tournamentKickedUsersIds.includes(element.id_user)) return false;
+
+          return true;
+        });
+
+        // resto da função original
+        if (bracket.match('p[1-4]')) {
+          // cria um array com os participantes selecionáveis
+          // somente para a coluna com os participantes
+          const participantsNames = this.participantsArray.map(
+            async (participant) => {
+              return participant.name;
+            }
           );
+
+          for (let participant in participantsNames) {
+            let flagParticipantIsInBracket = 0;
+
+            for (let bracket in this.brackets) {
+              if (participantsNames[participant] == this.brackets[bracket])
+                flagParticipantIsInBracket = 1;
+            }
+
+            if (flagParticipantIsInBracket == 0) {
+              this.selectableParticipantsNamesArray.push(
+                await participantsNames[participant]
+              );
+            }
+          }
         }
-      }
-    }
 
-    if (this.flagParticipantsChosen) {
-      if (bracket == 's1') {
-        this.selectableParticipantsNamesArray.push(this.column1[0]);
-        this.selectableParticipantsNamesArray.push(this.column1[1]);
-      }
+        if (this.flagParticipantsChosen) {
+          if (bracket == 's1') {
+            this.selectableParticipantsNamesArray.push(this.column1[0]);
+            this.selectableParticipantsNamesArray.push(this.column1[1]);
+          }
 
-      if (bracket == 's2') {
-        this.selectableParticipantsNamesArray.push(this.column1[2]);
-        this.selectableParticipantsNamesArray.push(this.column1[3]);
-      }
-    }
+          if (bracket == 's2') {
+            this.selectableParticipantsNamesArray.push(this.column1[2]);
+            this.selectableParticipantsNamesArray.push(this.column1[3]);
+          }
+        }
 
-    if (bracket == 'w' && this.flagSemifinalistsChosen) {
-      this.selectableParticipantsNamesArray.push(this.column2[0]);
-      this.selectableParticipantsNamesArray.push(this.column2[1]);
-    }
+        if (bracket == 'w' && this.flagSemifinalistsChosen) {
+          this.selectableParticipantsNamesArray.push(this.column2[0]);
+          this.selectableParticipantsNamesArray.push(this.column2[1]);
+        }
 
-    // se tudo isso resultou num vetor vazio
-    // ou seja, não há quem escolher
-    // não exibe nem processa nada
-    // mas avisa que precisa convidar mais pessoas para preencher os brackets
-    if (this.selectableParticipantsNamesArray.length == 0) {
-      await this.ionToastService.presentToast(
-        'Você precisa convidar mais pessoas para preencher as chaves do torneio!',
-        'top'
-      );
-      return;
-    }
+        // se tudo isso resultou num vetor vazio
+        // ou seja, não há quem escolher
+        // não exibe nem processa nada
+        // mas avisa que precisa convidar mais pessoas para preencher os brackets
+        if (this.selectableParticipantsNamesArray.length == 0) {
+          await this.ionToastService.presentToast(
+            'Você precisa convidar mais pessoas para preencher as chaves do torneio!',
+            'top'
+          );
+          return;
+        }
 
-    await this.showPicker(bracket, this.selectableParticipantsNamesArray);
+        await this.showPicker(bracket, this.selectableParticipantsNamesArray);
+      });
   }
 
   async showPicker(bracket: string, participantsNames: string[]) {
@@ -684,7 +715,7 @@ export class TournamentPage implements OnInit {
           component: TournamentParticipantsPage,
           componentProps: {
             participants: participants,
-            id_tournament: this.tournamentInfo.id_tournament
+            id_tournament: this.tournamentInfo.id_tournament,
           },
         });
 
