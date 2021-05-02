@@ -25,7 +25,7 @@
   </ion-header> -->
 
   <ion-list *ngFor="let publication of publications">
-    <ion-card>
+    <ion-card href="/tournament/{{publication.tournament.id_tournament}}">
       <ion-card-header>
         <ion-card-title>
           <ion-icon class="user-icon" size="large" name="person-circle-outline"></ion-icon>
