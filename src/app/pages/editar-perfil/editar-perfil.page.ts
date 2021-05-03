@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { IonAlertService } from 'src/app/services/ion-alert.service';
 import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
 import { IonToastService } from 'src/app/services/ion-toast.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-editar-perfil',
@@ -9,6 +10,8 @@ import { IonToastService } from 'src/app/services/ion-toast.service';
   styleUrls: ['./editar-perfil.page.scss'],
 })
 export class EditarPerfilPage implements OnInit {
+  id_user: string;
+
   private logoTelegram = 'assets/icons/logo-telegram.svg';
   private logoFacebook = 'assets/icons/logo-facebook.svg';
   private logoTwitter = 'assets/icons/logo-twitter.svg';
@@ -45,18 +48,21 @@ export class EditarPerfilPage implements OnInit {
   constructor(
     private seuPerfilService: SeuPerfilService,
     private ionToastService: IonToastService,
-    private ionAlertService: IonAlertService
+    private ionAlertService: IonAlertService,
+    private route: ActivatedRoute
   ) {
     this.maxDate = this.getTodayDate();
   }
 
   ngOnInit() {
+    this.id_user = this.route.snapshot.paramMap.get('id');
+
     this.loadUserEditInfo();
     this.loadUserSocialEditInfo();
   }
 
   loadUserEditInfo() {
-    this.seuPerfilService.getUser().subscribe((response) => {
+    this.seuPerfilService.getUser(this.id_user).subscribe((response) => {
       if (!response.data) return;
 
       this.placeholder = '';
@@ -71,7 +77,7 @@ export class EditarPerfilPage implements OnInit {
   }
 
   loadUserSocialEditInfo() {
-    this.seuPerfilService.getUserSocial().subscribe((response) => {
+    this.seuPerfilService.getUserSocial(this.id_user).subscribe((response) => {
       if (response.data.telegram) {
         this.placeholder_telegram = 'Sair como ' + response.data.telegram;
         this.telegram = response.data.telegram;

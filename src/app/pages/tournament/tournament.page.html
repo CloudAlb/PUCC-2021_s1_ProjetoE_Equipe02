@@ -13,13 +13,13 @@
         <ion-avatar>
           <img src="{{tournamentInfo.user.avatar_image}}" />
         </ion-avatar>
-        <ion-label>@{{tournamentInfo.user.username}}</ion-label></ion-chip
-      >
+        <ion-label>@{{tournamentInfo.user.username}}</ion-label>
+      </ion-chip>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content scroll-x="true">
+<ion-content scroll-x="true" (ionViewWillEnter)="ngOnInit()">
   <div class="wrapper">
     <div class="item-childrens">
       <div class="item">
@@ -131,46 +131,34 @@
   </div>
 </ion-content>
 
+<div class="fab-header">
+  <ion-fab vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="createParticipantsListModal()">
+      <img src="../../../assets/icons/participants.png" alt="" />
+    </ion-fab-button>
+  </ion-fab>
+</div>
+
 <div *ngIf="userIsTournamentOwner">
-  <ion-fab
-    vertical="bottom"
-    horizontal="start"
-    slot="fixed"
-    *ngIf="!flagTournamentInitialized"
-  >
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="!flagTournamentInitialized">
     <ion-fab-button (click)="createInviteParticipantsModal()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab
-    vertical="bottom"
-    horizontal="center"
-    slot="fixed"
-    *ngIf="flagChangeWasMade"
-  >
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="flagChangeWasMade">
     <ion-fab-button (click)="showSaveTournamentAlert()">
       <ion-icon name="save-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab
-    vertical="bottom"
-    horizontal="end"
-    slot="fixed"
-    *ngIf="flagTournamentReadyToInitialize"
-  >
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="flagTournamentReadyToInitialize">
     <ion-fab-button (click)="showInitializeTournamentAlert()">
       <ion-icon name="checkmark-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab
-    vertical="bottom"
-    horizontal="end"
-    slot="fixed"
-    *ngIf="flagWinnerSelected"
-  >
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="flagWinnerSelected">
     <ion-fab-button color="light" (click)="showChooseWinnerAlert()">
       <img src="../../../assets/icons/crown.png" alt="" />
     </ion-fab-button>

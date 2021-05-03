@@ -6,6 +6,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { SessionManagerService } from 'src/app/services/session-manager.service';
 
 import { HomeService } from 'src/app/services/home.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -20,16 +21,20 @@ export class HomePage implements OnInit {
   private readonly offset: number = 9;
   private index: number = 0;
 
-  private name = "";
-  private username = "";
-  private avatar_image = "";
+  private name = '';
+  private username = '';
+  private avatar_image = '';
 
-  constructor(public homeService: HomeService,
-              public localStorageService: LocalStorageService,
-              public alertController: AlertController,
-              public sessionManagerService: SessionManagerService) {
-
-    this.itemsPage = this.publications.slice(this.index, this.offset + this.index);
+  constructor(
+    public homeService: HomeService,
+    public localStorageService: LocalStorageService,
+    public alertController: AlertController,
+    public sessionManagerService: SessionManagerService
+  ) {
+    this.itemsPage = this.publications.slice(
+      this.index,
+      this.offset + this.index
+    );
     this.index += this.offset;
   }
 
@@ -39,9 +44,12 @@ export class HomePage implements OnInit {
     this.name = userInfo.name;
     this.username = userInfo.username;
     if (userInfo.avatar_image) this.avatar_image = userInfo.avatar_image;
+    this.verifyNewPubs();
+
+    console.log(this.publications);
   }
 
-  loadPublications(){
+  loadPublications() {
     this.homeService.getPublications().subscribe((response) => {
       this.publications = response.data;
     });
@@ -62,5 +70,12 @@ export class HomePage implements OnInit {
         event.target.disabled = true;
       }
     }, 1200);
+  }
+
+  verifyNewPubs() {
+    const source = interval(4000);
+    source.subscribe(() => {
+      this.loadPublications();
+    });
   }
 }

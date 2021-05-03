@@ -11,6 +11,15 @@ import { IonAlertService } from 'src/app/services/ion-alert.service';
 import { IonToastService } from 'src/app/services/ion-toast.service';
 import { TournamentsService } from 'src/app/services/tournaments.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { UsersService } from 'src/app/services/users.service';
+import { TournamentParticipantsPage } from 'src/app/modal/tournament-participants/tournament-participants.page';
+
+interface UserData {
+  id_user: string;
+  name: string;
+  username: string;
+  avatar_image: string;
+}
 
 interface TournamentInfo {
   id_tournament: string;
@@ -88,7 +97,9 @@ export class TournamentPage implements OnInit {
     private ionToastService: IonToastService,
     private pickerController: PickerController,
     private ionAlertService: IonAlertService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+
+    private usersService: UsersService
   ) {}
 
   ngOnInit() {
@@ -160,10 +171,13 @@ export class TournamentPage implements OnInit {
   }
 
   async createInviteParticipantsModal() {
+    const { id_user } = this.localStorageService.getUserInfo();
+
     const modal = await this.modalController.create({
       component: InviteParticipantsPage,
       componentProps: {
         id_tournament: this.route.snapshot.paramMap.get('id'),
+        logged_user_id: id_user,
       },
     });
 
@@ -237,59 +251,108 @@ export class TournamentPage implements OnInit {
 
     this.selectableParticipantsNamesArray = [];
 
-    if (bracket.match('p[1-4]')) {
-      // cria um array com os participantes selecionáveis
-      // somente para a coluna com os participantes
-      const participantsNames = this.participantsArray.map((participant) => {
-        return participant.name;
-      });
+    let tournamentKickedUsers: {
+      id_user: string;
+      name: string;
+      username: string;
+    }[];
 
-      for (let participant in participantsNames) {
-        let flagParticipantIsInBracket = 0;
-
-        for (let bracket in this.brackets) {
-          if (participantsNames[participant] == this.brackets[bracket])
-            flagParticipantIsInBracket = 1;
+    this.tournamentsService
+      .getTournamentKickedParticipants(this.tournamentInfo.id_tournament)
+      .subscribe(async (response) => {
+        if (response.status == 'error') {
+          return;
         }
 
-        if (flagParticipantIsInBracket == 0) {
-          this.selectableParticipantsNamesArray.push(
-            participantsNames[participant]
+        tournamentKickedUsers = response.data;
+
+        let tournamentKickedUsersIds: String[] = [];
+
+        tournamentKickedUsers.map((element) => {
+          tournamentKickedUsersIds.push(element.id_user);
+        });
+
+        this.participantsArray = this.participantsArray.filter((element) => {
+          if (tournamentKickedUsersIds.includes(element.id_user)) return false;
+
+          return true;
+        });
+
+        // TODO, resto da função original
+        if (bracket.match('p[1-4]')) {
+          // cria um array com os participantes selecionáveis
+          // somente para a coluna com os participantes
+          const participantsNames = this.participantsArray.map(
+            async (participant) => {
+              return participant.name;
+            }
           );
+
+          const participantsNamesResolved = await Promise.all(
+            participantsNames
+          );
+
+          for (let participant in participantsNamesResolved) {
+            let flagParticipantIsInBracket = 0;
+
+            for (let bracket in this.brackets) {
+              // console.log(participantsNamesResolved[participant]);
+              // console.log(this.brackets[bracket]);
+              // console.log(
+              //   participantsNamesResolved[participant] == this.brackets[bracket]
+              // );
+
+              if (
+                participantsNamesResolved[participant] == this.brackets[bracket]
+              )
+                flagParticipantIsInBracket = 1;
+            }
+
+            if (flagParticipantIsInBracket == 0) {
+              this.selectableParticipantsNamesArray.push(
+                participantsNamesResolved[participant]
+              );
+            }
+          }
         }
-      }
-    }
 
-    if (this.flagParticipantsChosen) {
-      if (bracket == 's1') {
-        this.selectableParticipantsNamesArray.push(this.column1[0]);
-        this.selectableParticipantsNamesArray.push(this.column1[1]);
-      }
+        if (this.flagParticipantsChosen) {
+          if (bracket == 's1') {
+            if (!this.column1[0].includes('kickado'))
+              this.selectableParticipantsNamesArray.push(this.column1[0]);
+            if (!this.column1[1].includes('kickado'))
+              this.selectableParticipantsNamesArray.push(this.column1[1]);
+          }
 
-      if (bracket == 's2') {
-        this.selectableParticipantsNamesArray.push(this.column1[2]);
-        this.selectableParticipantsNamesArray.push(this.column1[3]);
-      }
-    }
+          if (bracket == 's2') {
+            if (!this.column1[2].includes('kickado'))
+              this.selectableParticipantsNamesArray.push(this.column1[2]);
+            if (!this.column1[3].includes('kickado'))
+              this.selectableParticipantsNamesArray.push(this.column1[3]);
+          }
+        }
 
-    if (bracket == 'w' && this.flagSemifinalistsChosen) {
-      this.selectableParticipantsNamesArray.push(this.column2[0]);
-      this.selectableParticipantsNamesArray.push(this.column2[1]);
-    }
+        if (bracket == 'w' && this.flagSemifinalistsChosen) {
+          if (!this.column2[0].includes('kickado'))
+            this.selectableParticipantsNamesArray.push(this.column2[0]);
+          if (!this.column2[1].includes('kickado'))
+            this.selectableParticipantsNamesArray.push(this.column2[1]);
+        }
 
-    // se tudo isso resultou num vetor vazio
-    // ou seja, não há quem escolher
-    // não exibe nem processa nada
-    // mas avisa que precisa convidar mais pessoas para preencher os brackets
-    if (this.selectableParticipantsNamesArray.length == 0) {
-      await this.ionToastService.presentToast(
-        'Você precisa convidar mais pessoas para preencher as chaves do torneio!',
-        'top'
-      );
-      return;
-    }
+        // se tudo isso resultou num vetor vazio
+        // ou seja, não há quem escolher
+        // não exibe nem processa nada
+        // mas avisa que precisa convidar mais pessoas para preencher os brackets
+        if (this.selectableParticipantsNamesArray.length == 0) {
+          await this.ionToastService.presentToast(
+            'Você precisa convidar mais pessoas para preencher as chaves do torneio!',
+            'top'
+          );
+          return;
+        }
 
-    await this.showPicker(bracket, this.selectableParticipantsNamesArray);
+        await this.showPicker(bracket, this.selectableParticipantsNamesArray);
+      });
   }
 
   async showPicker(bracket: string, participantsNames: string[]) {
@@ -465,6 +528,8 @@ export class TournamentPage implements OnInit {
     this.flagWinnerChosen = true;
     this.flagWinnerSelected = false;
     this.saveTournament();
+    this.endTournament();
+    this.giveUserCoins();
   }
 
   async showSaveTournamentAlert() {
@@ -557,6 +622,15 @@ export class TournamentPage implements OnInit {
           this.column4 = response.data.column4.split(',');
         }
 
+        if (response.data.tournament_ended) {
+          this.flagParticipantsChosen = true;
+          this.flagSemifinalistsChosen = true;
+          this.flagTournamentInitialized = true;
+          this.flagWinnerChosen = true;
+
+          return;
+        }
+
         // para habilitar os botões de inicializar torneio
         // então, se o torneio já foi inicializado, não precisa ser executado
         if (!this.flagTournamentInitialized) {
@@ -569,6 +643,9 @@ export class TournamentPage implements OnInit {
         ) {
           this.flagSemifinalistsChosen = true;
         }
+
+        // TODO, não deu pra fazer no ngOnInit, então fiz aqui.
+        this.adjustBracketsAfterKickedUser();
       });
   }
 
@@ -588,5 +665,218 @@ export class TournamentPage implements OnInit {
         this.loadTournamentColumns();
       });
     }
+  }
+
+  giveUserCoins() {
+    this.tournamentsService
+      .getTournamentParticipants(this.tournamentInfo.id_tournament)
+      .subscribe((response) => {
+        const participants = response.data;
+
+        let semifinalist: string;
+
+        if (this.brackets.w != this.brackets.s1)
+          semifinalist = this.brackets.s1;
+        else semifinalist = this.brackets.s2;
+
+        let sGotCoins = false;
+        let wGotCoins = false;
+
+        participants.map((participant) => {
+          if (!sGotCoins && participant.name == semifinalist) {
+            this.usersService
+              .addCoins(participant.id_user, 5)
+              .subscribe((response) => {
+                if (response.status == 'error') {
+                  return;
+                }
+
+                sGotCoins = true;
+              });
+          }
+
+          if (!wGotCoins && participant.name == this.brackets.w) {
+            this.usersService
+              .addCoins(participant.id_user, 10)
+              .subscribe((response) => {
+                if (response.status == 'error') {
+                  return;
+                }
+
+                wGotCoins = true;
+              });
+          }
+
+          if (sGotCoins && wGotCoins) {
+            return;
+          }
+        });
+      });
+  }
+
+  endTournament() {
+    this.tournamentsService
+      .endTournament(this.tournamentInfo.id_tournament)
+      .subscribe();
+  }
+
+  async createParticipantsListModal() {
+    let participants: UserData[] = [];
+
+    this.tournamentsService
+      .getTournamentParticipants(this.tournamentInfo.id_tournament)
+      .subscribe(async (response) => {
+        if (response.message) {
+          this.ionToastService.presentToast(response.message);
+        }
+
+        participants = response.data;
+
+        const modal = await this.modalController.create({
+          component: TournamentParticipantsPage,
+          componentProps: {
+            participants: participants,
+            id_tournament: this.tournamentInfo.id_tournament,
+          },
+        });
+
+        await modal.present();
+
+        await modal.onDidDismiss();
+        // aqui deve estar uma função que ajeita as chaves se alguém tiver sido kickado
+        // TODO, aqui deve ter uma tratativa para executar o onInit só se alguém tiver sido kickado (Input e Output)
+        this.ngOnInit();
+        this.adjustBracketsAfterKickedUser();
+      });
+  }
+
+  // TODO, desativar o botão de kickar se o torneio tiver sido encerrado
+  adjustBracketsAfterKickedUser() {
+    this.tournamentsService
+      .getTournamentKickedParticipants(this.tournamentInfo.id_tournament)
+      .subscribe(async (response) => {
+        if (response.status == 'error') {
+          await this.ionToastService.presentToast(
+            'An error has occured.',
+            'middle'
+          );
+          return;
+        }
+
+        const tournamentKickedParticipants = response.data;
+
+        let tournamentKickedUsersNames: String[] = [];
+
+        tournamentKickedParticipants.map((element) => {
+          tournamentKickedUsersNames.push(element.name);
+        });
+
+        tournamentKickedUsersNames.forEach((kickedParticipantName) => {
+          if (this.column2[0].includes(kickedParticipantName.toString())) {
+            console.log('s1 foi kickado');
+            if (!this.isStringEmpty(this.column2[1])) {
+              // passar o s2 pra w e salvar torneio
+
+              this.column2[0] = kickedParticipantName + ' (kickado)';
+              this.column3[0] = this.column2[1];
+              this.setParticipantInBracket('s1', this.column2[0]);
+              this.setParticipantInBracket('w', this.column2[1]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column2[1].includes(kickedParticipantName.toString())) {
+            console.log('s2 foi kickado');
+            if (!this.isStringEmpty(this.column2[0])) {
+              // passar o s1 pra w e salvar torneio
+
+              this.column2[1] = kickedParticipantName + ' (kickado)';
+              this.column3[0] = this.column2[0];
+              this.setParticipantInBracket('s2', this.column2[1]);
+              this.setParticipantInBracket('w', this.column2[0]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column1[0].includes(kickedParticipantName.toString())) {
+            console.log('p1 foi kickado');
+            if (!this.isStringEmpty(this.column1[1])) {
+              // passar o p2 pra s1 e salvar torneio
+
+              this.column1[0] = kickedParticipantName + ' (kickado)';
+              this.column2[0] = this.column1[1];
+              this.setParticipantInBracket('p1', this.column1[0]);
+              this.setParticipantInBracket('s1', this.column1[1]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column1[1].includes(kickedParticipantName.toString())) {
+            console.log('p2 foi kickado');
+            if (!this.isStringEmpty(this.column1[0])) {
+              // passar o p1 pra s1 e salvar torneio
+
+              this.column1[1] = kickedParticipantName + ' (kickado)';
+              this.column2[0] = this.column1[0];
+              this.setParticipantInBracket('p2', this.column1[1]);
+              this.setParticipantInBracket('s1', this.column1[0]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column1[2].includes(kickedParticipantName.toString())) {
+            console.log('p3 foi kickado');
+            if (!this.isStringEmpty(this.column1[3])) {
+              // passar o p4 pra s2 e salvar torneio
+
+              this.column1[2] = kickedParticipantName + ' (kickado)';
+              this.column2[1] = this.column1[3];
+              this.setParticipantInBracket('p3', this.column1[2]);
+              this.setParticipantInBracket('s2', this.column1[3]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+
+          if (this.column1[3].includes(kickedParticipantName.toString())) {
+            console.log('p4 foi kickado');
+            if (!this.isStringEmpty(this.column1[2])) {
+              // passar o p3 pra s2 e salvar torneio
+
+              this.column1[3] = kickedParticipantName + ' (kickado)';
+              this.column2[1] = this.column1[2];
+              this.setParticipantInBracket('p4', this.column1[3]);
+              this.setParticipantInBracket('s2', this.column1[2]);
+              // this.saveTournament();
+            } else {
+              // TODO
+            }
+
+            return;
+          }
+        });
+
+        // console.log(this.column1);
+        // console.log(this.column2);
+      });
   }
 }

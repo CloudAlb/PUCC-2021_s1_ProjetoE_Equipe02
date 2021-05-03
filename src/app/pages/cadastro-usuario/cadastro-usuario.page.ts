@@ -21,11 +21,11 @@ export class CadastroUsuarioPage implements OnInit {
   };
 
   // esquema do Matheus
-  public name //= 'Matheus Albino';
-  public username //= 'MAlb';
-  public email //= 'malb@gmail.com';
-  public password //= '12345678';
-  public birth_date //= '2001-10-16';
+  public name; //= 'Matheus Albino';
+  public username; //= 'MAlb';
+  public email; //= 'malb@gmail.com';
+  public password; //= '12345678';
+  public birth_date; //= '2001-10-16';
 
   public maxDate = '';
 
@@ -97,11 +97,9 @@ export class CadastroUsuarioPage implements OnInit {
 
         await this.ionToastService.presentToast(response.message, 'bottom');
 
-        /*
         this.router
-          .navigate(['/home'], { relativeTo: this.route.parent })
+          .navigate(['/login'], { relativeTo: this.route.parent })
           .then(() => {});
-        */
       });
   }
 

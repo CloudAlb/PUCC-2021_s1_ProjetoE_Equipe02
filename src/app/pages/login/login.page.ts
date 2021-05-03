@@ -12,8 +12,8 @@ import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  private login = "";
-  private password = "";
+  private login = '';
+  private password = '';
 
   constructor(
     private sessionManagerService: SessionManagerService,
@@ -27,26 +27,44 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
-  postLogin(login: string, password: string) {
+  isStringEmpty(element: string) {
+    if (element == '') return true;
+    if (element == undefined) return true;
+    if (element == null) return true;
+
+    return false;
+  }
+
+  async postLogin(login: string, password: string) {
     // TODO, colocar mensagem pro usuário "Por favor, aguarde... com IonLoading"
+
+    if (this.isStringEmpty(this.login) || this.isStringEmpty(this.password)) {
+      await this.ionToastService.presentToast(
+        'Aviso: ainda há campos vazios!',
+        'bottom'
+      );
+    }
+
     this.sessionsService
       .postLogin({ login, password })
-      .subscribe((response) => {
+      .subscribe(async (response) => {
         if (!response.token) {
-          this.ionToastService.presentToast(response.message, 'bottom');
+          await this.ionToastService.presentToast(response.message, 'bottom');
           return;
         }
 
         this.sessionManagerService.setToken(response.token.token);
 
-        this.seuPerfilService.getUser().subscribe((response) => {
-          this.localStorageService.setUserInfo({
-            id_user: response.data.id_user,
-            name: response.data.name,
-            username: response.data.username,
-            avatar_image: response.data.avatarImage,
+        this.seuPerfilService
+          .getUser(response.token.id_user)
+          .subscribe((response) => {
+            this.localStorageService.setUserInfo({
+              id_user: response.data.id_user,
+              name: response.data.name,
+              username: response.data.username,
+              avatar_image: response.data.avatarImage,
+            });
           });
-        });
 
         this.router
           .navigate(['/home'], { relativeTo: this.route.parent })

@@ -18,7 +18,6 @@ import { UserInfo } from '../models/user-info';
   providedIn: 'root',
 })
 export class SeuPerfilService {
-  private user_id: string;
   private headers: HttpHeaders;
 
   constructor(
@@ -28,19 +27,19 @@ export class SeuPerfilService {
     this.getHeaders();
   }
 
-  public getUser(): Observable<UserInfo> {
+  public getUser(id_user: string): Observable<UserInfo> {
     this.getHeaders();
 
-    return this.http.get<UserInfo>(environment.baseUrl + '/users/', {
+    return this.http.get<UserInfo>(environment.baseUrl + '/users/' + id_user, {
       headers: this.headers,
     });
   }
 
-  public getUserSocial(): Observable<UserSocialResponse> {
+  public getUserSocial(id_user: string): Observable<UserSocialResponse> {
     this.getHeaders();
 
     return this.http.get<UserSocialResponse>(
-      environment.baseUrl + '/users/social/',
+      environment.baseUrl + '/users/social/' + id_user,
       {
         headers: this.headers,
       }

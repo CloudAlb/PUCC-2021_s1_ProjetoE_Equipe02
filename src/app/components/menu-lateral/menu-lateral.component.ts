@@ -7,20 +7,12 @@ import { SessionsService } from 'src/app/services/sessions.service';
   styleUrls: ['./menu-lateral.component.scss'],
 })
 export class MenuLateralComponent implements OnInit {
-  private name: string;
-  private username: string;
-  private avatarPath: string;
+  id_user: string;
+  name: string;
+  username: string;
+  avatarPath: string;
 
-  public appPages = [
-    { title: 'Home', url: 'home', icon: 'home' },
-    { title: 'Seu perfil', url: 'seu-perfil', icon: 'person' },
-    { title: 'Criar Torneio', url: 'tournaments-criar', icon: 'trophy' },
-    { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
-    { title: 'Loja', url: 'loja', icon: 'bag' },
-    { title: 'Seguidores', url: '/followers', icon: 'heart' },
-    { title: 'Cadastro', url: '/cadastro', icon: 'add' },
-    { title: 'Login', url: '/login', icon: 'add' },
-  ];
+  appPages = [];
 
   @Input('contentId') public contentId: string;
   @Input('side') public side: string;
@@ -28,16 +20,35 @@ export class MenuLateralComponent implements OnInit {
   constructor(private sessionsService: SessionsService) {}
 
   ngOnInit() {
+    this.id_user = '';
     this.name = '';
     this.username = '';
     this.avatarPath = 'assets/icons/defaultIcon.svg';
 
     this.loadUserInfo();
+
+    this.appPages = [
+      { title: 'Home', url: 'home', icon: 'home' },
+      { title: 'Seu perfil', url: '/profile/' + this.id_user, icon: 'person' },
+      { title: 'Seguidores', url: '/seguidores/' + this.id_user, icon: 'heart' },
+      { title: 'Criar Torneio', url: 'tournaments-criar', icon: 'trophy' },
+      { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
+      { title: 'Loja', url: 'loja', icon: 'bag' },
+      { title: 'Login', url: '/login', icon: 'add' },
+      { title: 'Cadastro', url: '/cadastro', icon: 'add' },
+      { title: 'Logout', url: '/logout', icon: 'log-out' },
+    ];
   }
 
   loadUserInfo() {
-    const { name, username, avatar_image } = this.sessionsService.getUserData();
+    const {
+      name,
+      username,
+      avatar_image,
+      id_user,
+    } = this.sessionsService.getUserData();
 
+    this.id_user = id_user;
     this.name = name;
     this.username = username;
     if (avatar_image) this.avatarPath = avatar_image;

@@ -15,21 +15,24 @@ export class CardTournamentButtonComponent implements OnInit {
   @Input('description') description: string;
   @Input('hasPassword') hasPassword: boolean;
 
-  constructor(public homeService: HomeService,
-              private ionToastService: IonToastService) { }
+  constructor(
+    public homeService: HomeService,
+    private ionToastService: IonToastService
+  ) {}
 
   ngOnInit() {}
 
-  publishPublication(id_tournament:string){
-    console.log(id_tournament)
-    this.homeService.postPublication({ id_tournament })
-    .subscribe(async (response) => {
-      if (response.error) {
-        await this.ionToastService.presentToast(response.error, 'bottom');
-        return;
-      }
+  publishPublication(id_tournament: string) {
+    console.log(id_tournament);
+    this.homeService
+      .postPublication({ id_tournament })
+      .subscribe(async (response) => {
+        if (response.error) {
+          await this.ionToastService.presentToast(response.error, 'bottom');
+          return;
+        }
 
-      await this.ionToastService.presentToast(response.message, 'bottom');
-    });
+        await this.ionToastService.presentToast(response.message, 'bottom');
+      });
   }
 }

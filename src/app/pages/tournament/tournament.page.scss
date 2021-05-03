@@ -32,6 +32,12 @@ ion-fab {
   margin-bottom: 100px;
 }
 
+.fab-header {
+  ion-fab {
+    margin-top: 120px;
+  }
+}
+
 // their css
 .wrapper {
   display: flex;
