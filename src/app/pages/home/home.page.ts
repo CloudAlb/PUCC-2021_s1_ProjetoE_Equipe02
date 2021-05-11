@@ -41,12 +41,11 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.loadPublications();
     const userInfo = this.localStorageService.getUserInfo();
+
     this.name = userInfo.name;
     this.username = userInfo.username;
     if (userInfo.avatar_image) this.avatar_image = userInfo.avatar_image;
     this.verifyNewPubs();
-
-    console.log(this.publications);
   }
 
   loadPublications() {

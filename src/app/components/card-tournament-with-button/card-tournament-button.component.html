@@ -5,7 +5,7 @@
   </ion-card-header>
 
   <ion-card-content>{{description}}</ion-card-content>
-  <ion-button fill="outline" href="/tournament/{{id_tournament}}">Visualizar</ion-button>
+  <ion-button fill="outline" routerLink="/tournament/{{id_tournament}}">Visualizar</ion-button>
   <ion-button fill="outline" (click)="publishPublication(id_tournament)">Publicar</ion-button>
   <ion-chip *ngIf="hasPassword">Tem senha</ion-chip>
 </ion-card>

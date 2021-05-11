@@ -78,25 +78,34 @@ export class EditarPerfilPage implements OnInit {
 
   loadUserSocialEditInfo() {
     this.seuPerfilService.getUserSocial(this.id_user).subscribe((response) => {
+      this.placeholder_telegram = 'Entrar com Telegram';
+      this.placeholder_facebook = 'Entrar com Facebook';
+      this.placeholder_twitter = 'Entrar com Twitter';
+      this.placeholder_twitch = 'Entrar com Twitch';
+
+      if (response.status == 'error') {
+        return;
+      }
+
       if (response.data.telegram) {
         this.placeholder_telegram = 'Sair como ' + response.data.telegram;
         this.telegram = response.data.telegram;
-      } else this.placeholder_telegram = 'Entrar com Telegram';
+      }
 
       if (response.data.facebook) {
         this.placeholder_facebook = 'Sair como ' + response.data.facebook;
         this.facebook = response.data.facebook;
-      } else this.placeholder_facebook = 'Entrar com Facebook';
+      }
 
       if (response.data.twitter) {
         this.placeholder_twitter = 'Sair como ' + response.data.twitter;
         this.twitter = response.data.twitter;
-      } else this.placeholder_twitter = 'Entrar com Twitter';
+      }
 
       if (response.data.twitch) {
         this.placeholder_twitch = 'Sair como ' + response.data.twitch;
         this.twitch = response.data.twitch;
-      } else this.placeholder_twitch = 'Entrar com Twitch';
+      }
     });
   }
 
