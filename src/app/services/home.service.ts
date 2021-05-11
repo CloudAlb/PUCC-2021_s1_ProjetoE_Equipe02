@@ -45,6 +45,7 @@ export class HomeService {
     }
 
     public postPublication(body: PublicationRequest): Observable<PublicationResponse> {
+      console.log(body)
       return this.http.post(environment.baseUrl + '/pubs/', body, {
         headers: this.headers,
       });

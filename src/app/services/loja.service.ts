@@ -30,6 +30,10 @@ export class LojaService {
   constructor(
     private http: HttpClient,
     private sessionManagerService: SessionManagerService) {
+      this.getHeaders();
+    }
+
+    getHeaders() {
       this.headers = new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + this.sessionManagerService.getToken(),
@@ -37,13 +41,16 @@ export class LojaService {
     }
 
     public getItens(): Observable<ItemInfo> {
+      this.getHeaders();
       return this.http.get<ItemInfo>(environment.baseUrl + '/item/', {
         headers: this.headers,
       });
     }
 
     public addItem(body: InventarioRequest): Observable<InventarioResponse> {
-      return this.http.post(environment.baseUrl + '/inventario/', body, {
+      this.getHeaders();
+      let json = {id_item:`${body}`};
+      return this.http.post(environment.baseUrl + '/inventario/', json, {
         headers: this.headers,
       });
     }
