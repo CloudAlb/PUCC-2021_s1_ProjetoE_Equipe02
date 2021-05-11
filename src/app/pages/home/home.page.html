@@ -5,7 +5,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-searchbar></ion-searchbar>
+  <ion-searchbar placeholder="Busca" [(ngModel)]="searchText" (ionInput)="filtraPubs($event)"></ion-searchbar>
 </ion-header>
 
 <ion-content (ionViewWillEnter)="ngOnInit()">

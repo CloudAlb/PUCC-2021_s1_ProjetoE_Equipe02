@@ -5,52 +5,27 @@
     </ion-buttons>
     <ion-title>Loja</ion-title>
   </ion-toolbar>
-  <!-- <ion-searchbar></ion-searchbar> -->
+  <ion-chip id="coins" color="secondary">
+    <ion-avatar>
+      <img src="../../../assets/images/gold-coin.svg">
+    </ion-avatar>
+    <ion-label>{{coins}}</ion-label>
+  </ion-chip>
 </ion-header>
 
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col>
-        <ion-card class="emoji">
+      <ion-col *ngFor="let item of itens">
+        <ion-card>
           <ion-card-header>
-            <ion-card-subtitle>Emoji</ion-card-subtitle>
-            <ion-card-title><img src={{emojiMorto}} alt="Avatar" class="avatar" /></ion-card-title>
+            <ion-card-subtitle>{{item.tipo}}</ion-card-subtitle>
+            <ion-card-title><img src={{item.asset}} alt="Avatar" class="avatar" /></ion-card-title>
           </ion-card-header>
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card class="moldura">
-          <ion-card-header>
-            <ion-card-subtitle>Moldura</ion-card-subtitle>
-            <ion-card-title><img src={{molduraCoracao}} alt="Avatar" class="avatar" /></ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card class="talisma">
-          <ion-card-header>
-            <ion-card-subtitle>Talismã</ion-card-subtitle>
-            <ion-card-title><img src={{avatarPath}} alt="Avatar" class="avatar" /></ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-card class="avatar">
-          <ion-card-header>
-            <ion-card-subtitle>Avatar</ion-card-subtitle>
-            <ion-card-title><img src={{avatarRobo}} alt="Avatar" class="avatar" /></ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-      <ion-col>
-        <ion-card class="avatar">
-          <ion-card-header>
-            <ion-card-subtitle>Background</ion-card-subtitle>
-            <ion-card-title><img src={{backgroud001}} alt="Avatar" class="avatar" /></ion-card-title>
-          </ion-card-header>
+          <ion-chip class="buy" color="secondary">
+            <ion-icon name="cart-outline"></ion-icon>
+            <ion-label>{{item.preco}}</ion-label>
+          </ion-chip>
         </ion-card>
       </ion-col>
     </ion-row>
