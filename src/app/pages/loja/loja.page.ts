@@ -5,6 +5,8 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
 import { LojaService } from 'src/app/services/loja.service';
+import { IonAlertService } from 'src/app/services/ion-alert.service';
+import { IonToastService } from 'src/app/services/ion-toast.service';
 
 @Component({
   selector: 'app-loja',
@@ -21,7 +23,9 @@ export class LojaPage implements OnInit {
 
   constructor(public seuPerfilService: SeuPerfilService,
               public lojaService: LojaService,
-              public localStorageService: LocalStorageService) { }
+              public localStorageService: LocalStorageService,
+              private ionAlertService: IonAlertService,
+              private ionToastService: IonToastService) { }
 
   ngOnInit() {
 
@@ -48,5 +52,38 @@ export class LojaPage implements OnInit {
         if (response.data.coins)
           this.coins = response.data.coins;
       });
+  }
+
+  compraItem(id_item,valor) {
+    console.log(id_item);
+    this.ionAlertService.presentAlertMultipleButtons(
+      'Deseja comprar esse item?',
+      '',
+      [
+        {
+          text: 'Não',
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.lojaService
+              .addItem(id_item)
+              .subscribe(async (response) => {
+                if (response.error) {
+                  await this.ionToastService.presentToast(response.error, 'bottom');
+                  return;
+                }
+
+
+                await this.ionToastService.presentToast(
+                  'Item comprado com sucesso.',
+                  'bottom'
+                );
+                return;
+              });
+          },
+        },
+      ]
+    );
   }
 }

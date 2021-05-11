@@ -2,28 +2,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { SessionManagerService } from './session-manager.service';
 import { ItemInfo } from '../models/item-info';
 
-export interface ItemResponse {
-  message?: string,
+export interface InventarioResponse {
+  message?: string;
 
   token?: {
     token: string;
-  }
+  };
 
   error?: string;
 }
 
-interface ItemRequest {
+interface InventarioRequest {
   id_item: string;
-  nome: string;
-  tipo: string;
-  asset: string;
-  preco: number;
 }
 
 @Injectable({
@@ -47,9 +42,9 @@ export class LojaService {
       });
     }
 
-    // public postItem(body: ItemRequest): Observable<ItemResponse> {
-    //   return this.http.post(environment.baseUrl + '/pubs/', body, {
-    //     headers: this.headers,
-    //   });
-    // }
+    public addItem(body: InventarioRequest): Observable<InventarioResponse> {
+      return this.http.post(environment.baseUrl + '/inventario/', body, {
+        headers: this.headers,
+      });
+    }
 }
