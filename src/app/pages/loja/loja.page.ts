@@ -13,8 +13,6 @@ import { LojaService } from 'src/app/services/loja.service';
 })
 export class LojaPage implements OnInit {
   public avatarPath = "assets/icons/defaultIcon.svg";
-  public avatarRobo = "assets/avatares/robo.svg";
-  public backgroud001 = "assets/backgrounds/001.svg";
 
   itens = [];
   user: UserInfo = {};
