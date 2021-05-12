@@ -2,28 +2,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { SessionManagerService } from './session-manager.service';
 import { ItemInfo } from '../models/item-info';
 
-export interface ItemResponse {
-  message?: string,
+export interface InventarioResponse {
+  message?: string;
 
   token?: {
     token: string;
-  }
+  };
 
   error?: string;
 }
 
-interface ItemRequest {
+interface InventarioRequest {
   id_item: string;
-  nome: string;
-  tipo: string;
-  asset: string;
-  preco: number;
 }
 
 @Injectable({
@@ -35,6 +30,10 @@ export class LojaService {
   constructor(
     private http: HttpClient,
     private sessionManagerService: SessionManagerService) {
+      this.getHeaders();
+    }
+
+    getHeaders() {
       this.headers = new HttpHeaders({
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + this.sessionManagerService.getToken(),
@@ -42,14 +41,17 @@ export class LojaService {
     }
 
     public getItens(): Observable<ItemInfo> {
+      this.getHeaders();
       return this.http.get<ItemInfo>(environment.baseUrl + '/item/', {
         headers: this.headers,
       });
     }
 
-    // public postItem(body: ItemRequest): Observable<ItemResponse> {
-    //   return this.http.post(environment.baseUrl + '/pubs/', body, {
-    //     headers: this.headers,
-    //   });
-    // }
+    public addItem(body: InventarioRequest): Observable<InventarioResponse> {
+      this.getHeaders();
+      let json = {id_item:`${body}`};
+      return this.http.post(environment.baseUrl + '/inventario/', json, {
+        headers: this.headers,
+      });
+    }
 }
