@@ -5,6 +5,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
 import { LojaService } from 'src/app/services/loja.service';
+import { UsersService } from 'src/app/services/users.service';
 import { IonAlertService } from 'src/app/services/ion-alert.service';
 import { IonToastService } from 'src/app/services/ion-toast.service';
 
@@ -23,6 +24,7 @@ export class LojaPage implements OnInit {
 
   constructor(public seuPerfilService: SeuPerfilService,
               public lojaService: LojaService,
+              public usersService: UsersService,
               public localStorageService: LocalStorageService,
               private ionAlertService: IonAlertService,
               private ionToastService: IonToastService) { }
@@ -73,6 +75,14 @@ export class LojaPage implements OnInit {
                   await this.ionToastService.presentToast(response.error, 'bottom');
                   return;
                 }
+
+                this.usersService
+                .addCoins(this.id_user, valor)
+                .subscribe((response) => {
+                  if (response.status == 'error') {
+                    return;
+                  }
+                });
 
 
                 await this.ionToastService.presentToast(

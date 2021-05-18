@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Inventário</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let item of itens">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>{{item.item.tipo}}</ion-card-subtitle>
+            <ion-card-title><img src={{item.item.asset}} alt="Avatar" class="avatar" /></ion-card-title>
+          </ion-card-header>
+          <!-- <ion-chip (click)="(compraItem(item.id_item, item.preco))" class="buy" color="secondary">
+            <ion-icon name="cart-outline"></ion-icon>
+            <ion-label>{{item.preco}} coins</ion-label>
+          </ion-chip> -->
+          <ion-chip class="use" color="secondary" *ngIf="item.ativo != true">
+            <ion-label>Usar</ion-label>
+          </ion-chip>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

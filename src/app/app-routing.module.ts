@@ -120,6 +120,10 @@ const routes: Routes = [
     path: 'tournament-participants',
     loadChildren: () => import('./modal/tournament-participants/tournament-participants.module').then( m => m.TournamentParticipantsPageModule)
   },
+  {
+    path: 'inventario',
+    loadChildren: () => import('./pages/inventario/inventario.module').then( m => m.InventarioPageModule)
+  },
 
 
 ];
