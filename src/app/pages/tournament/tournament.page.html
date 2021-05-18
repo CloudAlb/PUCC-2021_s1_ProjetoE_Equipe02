@@ -9,7 +9,7 @@
     <ion-title size="small">Jogo: {{tournamentInfo.game}}</ion-title>
     <ion-buttons slot="end">
       Criador:
-      <ion-chip>
+      <ion-chip routerLink="/profile/{{tournamentInfo.user.id_user}}">
         <ion-avatar>
           <img src="{{tournamentInfo.user.avatar_image}}" />
         </ion-avatar>

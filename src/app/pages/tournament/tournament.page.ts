@@ -773,7 +773,7 @@ export class TournamentPage implements OnInit {
 
         tournamentKickedUsersNames.forEach((kickedParticipantName) => {
           if (this.column2[0].includes(kickedParticipantName.toString())) {
-            console.log('s1 foi kickado');
+            // console.log('s1 foi kickado');
             if (!this.isStringEmpty(this.column2[1])) {
               // passar o s2 pra w e salvar torneio
 
@@ -790,7 +790,7 @@ export class TournamentPage implements OnInit {
           }
 
           if (this.column2[1].includes(kickedParticipantName.toString())) {
-            console.log('s2 foi kickado');
+            // console.log('s2 foi kickado');
             if (!this.isStringEmpty(this.column2[0])) {
               // passar o s1 pra w e salvar torneio
 
@@ -807,7 +807,7 @@ export class TournamentPage implements OnInit {
           }
 
           if (this.column1[0].includes(kickedParticipantName.toString())) {
-            console.log('p1 foi kickado');
+            // console.log('p1 foi kickado');
             if (!this.isStringEmpty(this.column1[1])) {
               // passar o p2 pra s1 e salvar torneio
 
@@ -824,7 +824,7 @@ export class TournamentPage implements OnInit {
           }
 
           if (this.column1[1].includes(kickedParticipantName.toString())) {
-            console.log('p2 foi kickado');
+            // console.log('p2 foi kickado');
             if (!this.isStringEmpty(this.column1[0])) {
               // passar o p1 pra s1 e salvar torneio
 
@@ -841,7 +841,7 @@ export class TournamentPage implements OnInit {
           }
 
           if (this.column1[2].includes(kickedParticipantName.toString())) {
-            console.log('p3 foi kickado');
+            // console.log('p3 foi kickado');
             if (!this.isStringEmpty(this.column1[3])) {
               // passar o p4 pra s2 e salvar torneio
 
@@ -858,7 +858,7 @@ export class TournamentPage implements OnInit {
           }
 
           if (this.column1[3].includes(kickedParticipantName.toString())) {
-            console.log('p4 foi kickado');
+            // console.log('p4 foi kickado');
             if (!this.isStringEmpty(this.column1[2])) {
               // passar o p3 pra s2 e salvar torneio
 

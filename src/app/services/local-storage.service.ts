@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SessionManagerService } from './session-manager.service';
-
-interface localUserData {
-  id_user: string;
-  name: string;
-  username: string;
-  avatar_image?: string;
-}
+import { LocalUserInfo } from 'src/app/models/local-user-info';
 
 @Injectable({
   providedIn: 'root',
@@ -49,14 +43,14 @@ export class LocalStorageService {
     return false;
   }
 
-  setUserInfo({ id_user, name, username, avatar_image }: localUserData) {
+  setUserInfo({ id_user, name, username, avatar_image }: LocalUserInfo) {
     this.set('user.id_user', id_user);
     this.set('user.name', name);
     this.set('user.username', username);
     if (avatar_image) this.set('user.avatar_image', avatar_image);
   }
 
-  getUserInfo(): localUserData {
+  getUserInfo(): LocalUserInfo {
     return {
       id_user: this.get('user.id_user'),
       name: this.get('user.name'),

@@ -26,7 +26,7 @@ export class HomePage implements OnInit {
   private username = '';
   private avatar_image = '';
 
-  public searchText
+  public searchText;
 
   constructor(
     public homeService: HomeService,
@@ -44,9 +44,11 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.loadPublications();
     const userInfo = this.localStorageService.getUserInfo();
+
     this.name = userInfo.name;
     this.username = userInfo.username;
     if (userInfo.avatar_image) this.avatar_image = userInfo.avatar_image;
+    this.verifyNewPubs();
   }
 
   loadPublications() {
@@ -73,21 +75,23 @@ export class HomePage implements OnInit {
     }, 1200);
   }
 
-  // verifyNewPubs() {
-  //   const source = interval(4000);
-  //   source.subscribe(() => {
-  //     this.loadPublications();
-  //   });
-  // }
+  verifyNewPubs() {
+    const source = interval(4000);
+    source.subscribe(() => {
+      this.loadPublications();
+    });
+  }
 
-  filtraPubs(texto: any){
+  filtraPubs(texto: any) {
     let val = texto.target.value;
     this.publications = this.publicationsBkp;
 
     if (val != null && val.trim() !== '' && val !== undefined) {
       this.publications = this.publications.filter((item) => {
         if (item.tournament.name && val) {
-          return (item.tournament.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          return (
+            item.tournament.name.toLowerCase().indexOf(val.toLowerCase()) > -1
+          );
         }
       });
     }

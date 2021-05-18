@@ -30,8 +30,11 @@ export class MenuLateralComponent implements OnInit {
     this.appPages = [
       { title: 'Home', url: 'home', icon: 'home' },
       { title: 'Seu perfil', url: '/profile/' + this.id_user, icon: 'person' },
-      { title: 'Seguidores', url: '/seguidores/' + this.id_user, icon: 'heart' },
-      { title: 'Criar Torneio', url: 'tournaments-criar', icon: 'trophy' },
+      {
+        title: 'Seguidores',
+        url: '/seguidores/' + this.id_user,
+        icon: 'heart',
+      },
       { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
       { title: 'Loja', url: 'loja', icon: 'bag' },
       { title: 'Inventário', url: 'inventario', icon: 'archive' },
@@ -42,17 +45,28 @@ export class MenuLateralComponent implements OnInit {
   }
 
   loadUserInfo() {
-    const {
-      name,
-      username,
-      avatar_image,
-      id_user,
-    } = this.sessionsService.getUserData();
+    const { name, username, avatar_image, id_user } =
+      this.sessionsService.getUserData();
 
     this.id_user = id_user;
     this.name = name;
     this.username = username;
     if (avatar_image) this.avatarPath = avatar_image;
+
+    this.appPages = [
+      { title: 'Home', url: 'home', icon: 'home' },
+      { title: 'Seu perfil', url: '/profile/' + this.id_user, icon: 'person' },
+      {
+        title: 'Seguidores',
+        url: '/seguidores/' + this.id_user,
+        icon: 'heart',
+      },
+      { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
+      { title: 'Loja', url: 'loja', icon: 'bag' },
+      { title: 'Login', url: '/login', icon: 'add' },
+      { title: 'Cadastro', url: '/cadastro', icon: 'add' },
+      { title: 'Logout', url: '/logout', icon: 'log-out' },
+    ];
   }
 
   ionWillOpen() {

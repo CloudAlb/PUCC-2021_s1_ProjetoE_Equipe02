@@ -5,4 +5,6 @@ export interface UserSocialResponse {
     twitter: string;
     twitch: string;
   }
+
+  status?: 'error'
 }

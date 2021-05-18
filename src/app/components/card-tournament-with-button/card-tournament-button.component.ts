@@ -23,7 +23,6 @@ export class CardTournamentButtonComponent implements OnInit {
   ngOnInit() {}
 
   publishPublication(id_tournament: string) {
-    console.log(id_tournament);
     this.homeService
       .postPublication({ id_tournament })
       .subscribe(async (response) => {

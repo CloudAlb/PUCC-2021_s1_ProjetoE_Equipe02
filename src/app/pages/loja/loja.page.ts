@@ -70,7 +70,7 @@ export class LojaPage implements OnInit {
           handler: () => {
 
             if(this.coins < valor){
-              this.ionToastService.presentToast(
+               this.ionToastService.presentToast(
                 'Não há saldo suficiente.',
                 'bottom'
               );
@@ -83,7 +83,7 @@ export class LojaPage implements OnInit {
                 if (response.error) {
                   await this.ionToastService.presentToast(response.error, 'bottom');
                   return;
-                }
+                };
 
                 this.usersService
                 .removeCoins(this.id_user.id_user, valor)
@@ -100,9 +100,4 @@ export class LojaPage implements OnInit {
                 );
                 return;
               });
-          },
-        },
-      ]
-    );
-  }
-}
+      });
