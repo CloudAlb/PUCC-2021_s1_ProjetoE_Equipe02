@@ -65,7 +65,7 @@ export class SeuPerfilPage implements OnInit {
         followers: '',
       },
     };
-    
+
     const { id_user } = this.localStorageService.getUserInfo();
     this.loggedInUser = id_user;
 
