@@ -57,7 +57,7 @@ export class LojaPage implements OnInit {
   }
 
   compraItem(id_item,valor) {
-    console.log(id_item);
+    console.log(this.id_user);
     this.ionAlertService.presentAlertMultipleButtons(
       'Deseja comprar esse item?',
       '',
@@ -68,6 +68,15 @@ export class LojaPage implements OnInit {
         {
           text: 'Sim',
           handler: () => {
+
+            if(this.coins < valor){
+              this.ionToastService.presentToast(
+                'Não há saldo suficiente.',
+                'bottom'
+              );
+              return;
+            }
+
             this.lojaService
               .addItem(id_item)
               .subscribe(async (response) => {
@@ -77,7 +86,7 @@ export class LojaPage implements OnInit {
                 }
 
                 this.usersService
-                .addCoins(this.id_user, valor)
+                .removeCoins(this.id_user.id_user, valor)
                 .subscribe((response) => {
                   if (response.status == 'error') {
                     return;

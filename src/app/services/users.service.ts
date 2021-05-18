@@ -73,6 +73,7 @@ export class UsersService {
   ): Observable<ResponseMessageOrErrors> {
     this.getHeaders();
 
+    console.log(quantity);
     return this.http.patch<ResponseMessageOrErrors>(
       environment.baseUrl + '/users/coins/remove',
       {
