@@ -5,9 +5,9 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
 import { LojaService } from 'src/app/services/loja.service';
+import { UsersService } from 'src/app/services/users.service';
 import { IonAlertService } from 'src/app/services/ion-alert.service';
 import { IonToastService } from 'src/app/services/ion-toast.service';
-import { UsersService } from 'src/app/services/users.service';
 import { LocalUserInfo } from 'src/app/models/local-user-info';
 
 @Component({
