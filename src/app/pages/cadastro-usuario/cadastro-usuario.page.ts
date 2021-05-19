@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CadastroService } from 'src/app/services/cadastro.service';
@@ -12,43 +13,27 @@ import { SessionsService } from 'src/app/services/sessions.service';
   styleUrls: ['./cadastro-usuario.page.scss'],
 })
 export class CadastroUsuarioPage implements OnInit {
-  public user = {
-    nome: '',
-    usuario: '',
-    email: '',
-    password: '',
-    data_nascimento: '',
-  };
-
-  // esquema do Matheus
-  public name; //= 'Matheus Albino';
-  public username; //= 'MAlb';
-  public email; //= 'malb@gmail.com';
-  public password; //= '12345678';
-  public birth_date; //= '2001-10-16';
-
   public maxDate = '';
 
   public fGroup: FormGroup;
 
   constructor(
+    public datepipe: DatePipe,
     private activatedRoute: ActivatedRoute,
     private fBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private ionToastService: IonToastService,
-    private cadastroService: CadastroService,
-    private sessionManagerService: SessionManagerService,
-    private sessionsService: SessionsService
+    private cadastroService: CadastroService
   ) {
     this.maxDate = this.getTodayDate();
 
     this.fGroup = this.fBuilder.group({
-      nome: [
+      name: [
         null,
         Validators.compose([Validators.required, Validators.minLength(3)]),
       ],
-      usuario: [
+      username: [
         null,
         Validators.compose([
           Validators.required,
@@ -63,45 +48,15 @@ export class CadastroUsuarioPage implements OnInit {
           Validators.pattern(/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/),
         ]),
       ],
-      senha: [
+      password: [
         null,
         Validators.compose([Validators.required, Validators.minLength(8)]),
       ],
-      data_nascimento: [null, Validators.compose([Validators.required])],
+      birth_date: [null, Validators.compose([Validators.required])],
     });
   }
 
-  ngOnInit() {
-    //this.folder = this.activatedRoute.snapshot.paramMap.get('id');
-    // Serve para setar os dados no formulário
-    // this.fGroup.get('nome').setValue()
-  }
-
-  public cadastrar(
-    name: string,
-    username: string,
-    email: string,
-    password: string,
-    birth_date: string
-  ) {
-    this.cadastroService
-      .postCadastro({ name, username, email, password, birth_date })
-      .subscribe(async (response) => {
-        if (response.error) {
-          await this.ionToastService.presentToast(response.error, 'bottom');
-          return;
-        }
-
-        // this.sessionManagerService.setToken(response.token.token);
-        // this.sessionsService.setUserData();
-
-        await this.ionToastService.presentToast(response.message, 'bottom');
-
-        this.router
-          .navigate(['/login'], { relativeTo: this.route.parent })
-          .then(() => {});
-      });
-  }
+  ngOnInit() {}
 
   private getTodayDate(): string {
     const today = new Date();
@@ -112,7 +67,30 @@ export class CadastroUsuarioPage implements OnInit {
     return yyyy + '-' + mm + '-' + dd;
   }
 
-  submitForm() {
-    console.log(this.fGroup.value);
+  onSubmit() {
+    const date: string = this.fGroup.get('birth_date').value;
+    const dateAsDate = new Date(date);
+    const formattedDate = dateAsDate.toISOString();
+
+    this.cadastroService
+      .postCadastro({
+        name: this.fGroup.get('name').value,
+        username: this.fGroup.get('username').value,
+        email: this.fGroup.get('email').value,
+        password: this.fGroup.get('password').value,
+        birth_date: formattedDate,
+      })
+      .subscribe(async (response) => {
+        if (response.error) {
+          await this.ionToastService.presentToast(response.error, 'bottom');
+          return;
+        }
+
+        await this.ionToastService.presentToast(response.message, 'bottom');
+
+        this.router
+          .navigate(['/login'], { relativeTo: this.route.parent })
+          .then(() => {});
+      });
   }
 }

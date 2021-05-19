@@ -39,13 +39,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'criar-torneio',
-    loadChildren: () =>
-      import('./pages/criar-torneio/criar-torneio.module').then(
-        (m) => m.CriarTorneioPageModule
-      ),
-  },
-  {
     path: 'loja',
     loadChildren: () =>
       import('./pages/loja/loja.module').then((m) => m.LojaPageModule),
@@ -116,7 +109,8 @@ const routes: Routes = [
   {
     path: 'seguidores/:id',
     loadChildren: () => import('./pages/seguidores/seguidores.module').then( m => m.SeguidoresPageModule)
-  },  {
+  },
+  {
     path: 'tournament-participants',
     loadChildren: () => import('./modal/tournament-participants/tournament-participants.module').then( m => m.TournamentParticipantsPageModule)
   },
