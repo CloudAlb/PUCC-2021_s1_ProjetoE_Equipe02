@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonToastService } from 'src/app/services/ion-toast.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
@@ -12,10 +13,10 @@ import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  private login = '';
-  private password = '';
+  public fGroup: FormGroup;
 
   constructor(
+    private fBuilder: FormBuilder,
     private sessionManagerService: SessionManagerService,
     private sessionsService: SessionsService,
     private ionToastService: IonToastService,
@@ -23,30 +24,31 @@ export class LoginPage implements OnInit {
     private route: ActivatedRoute,
     private seuPerfilService: SeuPerfilService,
     private localStorageService: LocalStorageService
-  ) {}
+  ) {
+    this.fGroup = this.fBuilder.group({
+      login: [
+        null,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(10),
+        ]),
+      ],
+      password: [
+        null,
+        Validators.compose([Validators.required, Validators.minLength(8)]),
+      ],
+    });
+  }
 
   ngOnInit() {}
 
-  isStringEmpty(element: string) {
-    if (element == '') return true;
-    if (element == undefined) return true;
-    if (element == null) return true;
-
-    return false;
-  }
-
-  async postLogin(login: string, password: string) {
-    // TODO, colocar mensagem pro usuário "Por favor, aguarde... com IonLoading"
-
-    if (this.isStringEmpty(this.login) || this.isStringEmpty(this.password)) {
-      await this.ionToastService.presentToast(
-        'Aviso: ainda há campos vazios!',
-        'bottom'
-      );
-    }
-
+  async onSubmit() {
     this.sessionsService
-      .postLogin({ login, password })
+      .postLogin({
+        login: this.fGroup.get('login').value,
+        password: this.fGroup.get('password').value,
+      })
       .subscribe(async (response) => {
         if (!response.token) {
           await this.ionToastService.presentToast(response.message, 'bottom');

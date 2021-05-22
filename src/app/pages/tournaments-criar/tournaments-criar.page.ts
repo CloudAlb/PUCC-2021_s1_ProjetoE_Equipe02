@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonToastService } from 'src/app/services/ion-toast.service';
 import { TournamentsService } from 'src/app/services/tournaments.service';
@@ -9,50 +15,35 @@ import { TournamentsService } from 'src/app/services/tournaments.service';
   styleUrls: ['./tournaments-criar.page.scss'],
 })
 export class TournamentsCriarPage implements OnInit {
-  name: string;
-  game: string;
-  description: string;
-  password: string;
-  number_participants = 4;
+  public fGroup: FormGroup;
 
   constructor(
     private tournamentService: TournamentsService,
     private ionToastService: IonToastService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private fBuilder: FormBuilder
+  ) {
+    this.fGroup = this.fBuilder.group({
+      name: [null, Validators.compose([Validators.required])],
+      game: [null, Validators.compose([Validators.required])],
+      num_participants: new FormControl(
+        { value: '4', disabled: true },
+        Validators.required
+      ),
+      description: [null, Validators.compose([Validators.required])],
+    });
+  }
 
   ngOnInit() {}
 
-  isStringEmpty(element: string) {
-    if (element == '') return true;
-    if (element == undefined) return true;
-    if (element == null) return true;
-
-    return false;
-  }
-
-  async criarTournament() {
-    if (
-      this.isStringEmpty(this.name) ||
-      this.isStringEmpty(this.game) ||
-      this.isStringEmpty(this.description)
-    ) {
-      await this.ionToastService.presentToast(
-        'Aviso: ainda há campos vazios!',
-        'bottom'
-      );
-
-      return;
-    }
-
+  async onSubmit() {
     this.tournamentService
       .postTournament({
-        name: this.name,
-        game: this.game,
-        description: this.description,
-        password: this.password,
-        number_participants: this.number_participants,
+        name: this.fGroup.get('name').value,
+        game: this.fGroup.get('game').value,
+        number_participants: 4,
+        description: this.fGroup.get('description').value,
       })
       .subscribe(async (response) => {
         if (response.message) {
