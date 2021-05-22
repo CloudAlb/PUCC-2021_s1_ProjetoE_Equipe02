@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
 import { SessionManagerService } from './session-manager.service';
 import { ItensInfo } from '../models/itens-inventario-info';
 
+import { ResponseMessageOrErrors } from '../models/response-message-or-error';
+
 export interface InventarioResponse {
   message?: string;
 
@@ -43,6 +45,22 @@ export class InventarioService {
     public getItensInventario(): Observable<ItensInfo> {
       this.getHeaders();
       return this.http.get<ItensInfo>(environment.baseUrl + '/inventario/find', {
+        headers: this.headers,
+      });
+    }
+
+    public ativaItem(id_item): Observable<ResponseMessageOrErrors> {
+      this.getHeaders();
+      let json = {id_item:`${id_item}`};
+      return this.http.patch<ResponseMessageOrErrors>(environment.baseUrl + '/inventario/edit/ativa', json, {
+        headers: this.headers,
+      });
+    }
+
+    public desativaItem(id_item): Observable<ResponseMessageOrErrors> {
+      this.getHeaders();
+      let json = {id_item:`${id_item}`};
+      return this.http.patch<ResponseMessageOrErrors>(environment.baseUrl + '/inventario/edit/desativa', json, {
         headers: this.headers,
       });
     }

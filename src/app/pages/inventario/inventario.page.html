@@ -17,7 +17,7 @@
             <ion-icon name="cart-outline"></ion-icon>
             <ion-label>{{item.preco}} coins</ion-label>
           </ion-chip> -->
-          <ion-chip (click)="usarItem(item.item.asset)" class="use" color="secondary" *ngIf="item.ativo != true">
+          <ion-chip (click)="usarItem(item.item.asset, item.item.id_item, item.item.tipo)" class="use" color="secondary" *ngIf="item.ativo != true">
             <ion-label>Usar</ion-label>
           </ion-chip>
         </ion-card>

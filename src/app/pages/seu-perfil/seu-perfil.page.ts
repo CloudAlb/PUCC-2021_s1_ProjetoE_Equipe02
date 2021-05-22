@@ -144,7 +144,6 @@ export class SeuPerfilPage implements OnInit {
         if (this.user.data.id_user == this.loggedInUser)
           this.flagIsOwnUser = true;
 
-        debugger
         if (response.data.avatar_image)
           this.avatarPath = response.data.avatar_image;
         if (response.data.background_image)

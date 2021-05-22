@@ -25,18 +25,18 @@ export class MenuLateralComponent implements OnInit {
     this.username = '';
     this.avatarPath = 'assets/icons/defaultIcon.svg';
 
-    this.loadUserInfo();
+    // this.loadUserInfo();
 
     this.appPages = [
-      { title: 'Home', url: 'home', icon: 'home' },
-      { title: 'Seu perfil', url: '/profile/' + this.id_user, icon: 'person' },
-      { title: 'Seguidores', url: '/seguidores/' + this.id_user, icon: 'heart', },
-      { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
-      { title: 'Loja', url: 'loja', icon: 'bag' },
-      { title: 'Inventário', url: 'inventario', icon: 'archive' },
+      // { title: 'Home', url: 'home', icon: 'home' },
+      // { title: 'Seu perfil', url: '/profile/' + this.id_user, icon: 'person' },
+      // { title: 'Seguidores', url: '/seguidores/' + this.id_user, icon: 'heart', },
+      // { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
+      // { title: 'Loja', url: 'loja', icon: 'bag' },
+      // { title: 'Inventário', url: 'inventario', icon: 'archive' },
       { title: 'Login', url: '/login', icon: 'add' },
       { title: 'Cadastro', url: '/cadastro', icon: 'add' },
-      { title: 'Logout', url: '/logout', icon: 'log-out' },
+      // { title: 'Logout', url: '/logout', icon: 'log-out' },
     ];
   }
 
@@ -47,22 +47,27 @@ export class MenuLateralComponent implements OnInit {
     this.id_user = id_user;
     this.name = name;
     this.username = username;
+    console.log(avatar_image);
     if (avatar_image) this.avatarPath = avatar_image;
 
-    this.appPages = [
-      { title: 'Home', url: 'home', icon: 'home' },
-      { title: 'Seu perfil', url: '/profile/' + this.id_user, icon: 'person' },
-      {
-        title: 'Seguidores',
-        url: '/seguidores/' + this.id_user,
-        icon: 'heart',
-      },
-      { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
-      { title: 'Loja', url: 'loja', icon: 'bag' },
-      { title: 'Login', url: '/login', icon: 'add' },
-      { title: 'Cadastro', url: '/cadastro', icon: 'add' },
-      { title: 'Logout', url: '/logout', icon: 'log-out' },
-    ];
+    if(id_user != null){
+      this.appPages = [
+        { title: 'Home', url: 'home', icon: 'home' },
+        { title: 'Seu perfil', url: '/profile/' + this.id_user, icon: 'person' },
+        { title: 'Seguidores', url: '/seguidores/' + this.id_user, icon: 'heart', },
+        { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
+        { title: 'Loja', url: 'loja', icon: 'bag' },
+        { title: 'Inventário', url: 'inventario', icon: 'archive' },
+        { title: 'Login', url: '/login', icon: 'add' },
+        // { title: 'Cadastro', url: '/cadastro', icon: 'add' },
+        { title: 'Logout', url: '/logout', icon: 'log-out' },
+      ];
+    }else{
+      this.appPages = [
+        { title: 'Login', url: '/login', icon: 'add' },
+        { title: 'Cadastro', url: '/cadastro', icon: 'add' }
+      ];
+    }
   }
 
   ionWillOpen() {
