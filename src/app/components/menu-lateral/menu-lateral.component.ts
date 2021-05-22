@@ -30,11 +30,7 @@ export class MenuLateralComponent implements OnInit {
     this.appPages = [
       { title: 'Home', url: 'home', icon: 'home' },
       { title: 'Seu perfil', url: '/profile/' + this.id_user, icon: 'person' },
-      {
-        title: 'Seguidores',
-        url: '/seguidores/' + this.id_user,
-        icon: 'heart',
-      },
+      { title: 'Seguidores', url: '/seguidores/' + this.id_user, icon: 'heart', },
       { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
       { title: 'Loja', url: 'loja', icon: 'bag' },
       { title: 'Inventário', url: 'inventario', icon: 'archive' },

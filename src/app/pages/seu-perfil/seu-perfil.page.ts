@@ -57,8 +57,8 @@ export class SeuPerfilPage implements OnInit {
         username: '',
         email: '',
         birth_date: '',
-        avatarImage: '',
-        backgroundImage: '',
+        avatar_image: '',
+        background_image: '',
         bio: '',
         level: '',
         coins: '',
@@ -144,10 +144,11 @@ export class SeuPerfilPage implements OnInit {
         if (this.user.data.id_user == this.loggedInUser)
           this.flagIsOwnUser = true;
 
-        if (response.data.avatarImage)
-          this.backgroundPath = response.data.avatarImage;
-        if (response.data.backgroundImage)
-          this.backgroundPath = response.data.backgroundImage;
+        debugger
+        if (response.data.avatar_image)
+          this.avatarPath = response.data.avatar_image;
+        if (response.data.background_image)
+          this.backgroundPath = response.data.background_image;
       });
   }
 

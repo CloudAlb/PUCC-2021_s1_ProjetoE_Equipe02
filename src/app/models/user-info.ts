@@ -7,8 +7,8 @@ export interface UserInfo {
     email: string;
     birth_date: string;
 
-    avatarImage: string;
-    backgroundImage: string;
+    avatar_image: string;
+    background_image: string;
 
     bio: string;
     level: string;

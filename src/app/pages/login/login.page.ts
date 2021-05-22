@@ -62,7 +62,7 @@ export class LoginPage implements OnInit {
               id_user: response.data.id_user,
               name: response.data.name,
               username: response.data.username,
-              avatar_image: response.data.avatarImage,
+              avatar_image: response.data.avatar_image,
             });
           });
 

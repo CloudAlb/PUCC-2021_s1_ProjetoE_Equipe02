@@ -27,6 +27,14 @@ interface UserColocationsArrayOrErrorResponse {
   message?: string;
 }
 
+interface UserAvatarRequest {
+  avatar_image: string;
+}
+
+interface UserBackgroundRequest {
+  background_image: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -121,6 +129,28 @@ export class UsersService {
 
     return this.http.get<UserColocationsArrayOrErrorResponse>(
       environment.baseUrl + '/users/colocations/' + id_user,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  public atualizaAvatar( body: UserAvatarRequest ): Observable<ResponseMessageOrErrors> {
+    this.getHeaders();
+    let json = {avatar_image:`${body}`};
+    return this.http.patch<ResponseMessageOrErrors>(
+      environment.baseUrl + '/users/edit/avatar', json,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  public atualizaBackground( body: UserBackgroundRequest ): Observable<ResponseMessageOrErrors> {
+    this.getHeaders();
+    let json = {background_image:`${body}`};
+    return this.http.patch<ResponseMessageOrErrors>(
+      environment.baseUrl + '/users/edit/background', json,
       {
         headers: this.headers,
       }

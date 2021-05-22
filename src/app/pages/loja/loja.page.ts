@@ -14,11 +14,12 @@ import { IonToastService } from 'src/app/services/ion-toast.service';
   templateUrl: './loja.page.html',
   styleUrls: ['./loja.page.scss'],
 })
+
 export class LojaPage implements OnInit {
   public avatarPath = "assets/icons/defaultIcon.svg";
 
   itens = [];
-  user: UserInfo = {};
+  user: any;
   id_user: any;
   coins = '0';
 
@@ -49,7 +50,7 @@ export class LojaPage implements OnInit {
       .subscribe((response) => {
         if (!response.data) return;
 
-        this.user = response;
+        this.user = response.data.id_user;
 
         if (response.data.coins)
           this.coins = response.data.coins;
@@ -75,7 +76,7 @@ export class LojaPage implements OnInit {
                 'bottom'
               );
               return;
-            }
+            };
 
             this.lojaService
               .addItem(id_item)
@@ -83,21 +84,28 @@ export class LojaPage implements OnInit {
                 if (response.error) {
                   await this.ionToastService.presentToast(response.error, 'bottom');
                   return;
-                };
+                }
 
                 this.usersService
-                .removeCoins(this.id_user.id_user, valor)
+                .removeCoins(this.user, valor)
                 .subscribe((response) => {
                   if (response.status == 'error') {
                     return;
                   }
                 });
 
-
+                this.loadUserInfo();
                 await this.ionToastService.presentToast(
                   'Item comprado com sucesso.',
                   'bottom'
                 );
                 return;
               });
-      });
+          }
+        }
+      ]
+    );
+  }
+
+}
+
