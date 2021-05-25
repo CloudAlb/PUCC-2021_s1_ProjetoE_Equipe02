@@ -8,6 +8,7 @@ import { LojaService } from 'src/app/services/loja.service';
 import { UsersService } from 'src/app/services/users.service';
 import { IonAlertService } from 'src/app/services/ion-alert.service';
 import { IonToastService } from 'src/app/services/ion-toast.service';
+import { InventarioService } from 'src/app/services/inventario.service';
 
 @Component({
   selector: 'app-loja',
@@ -19,6 +20,7 @@ export class LojaPage implements OnInit {
   public avatarPath = "assets/icons/defaultIcon.svg";
 
   itens = [];
+  itens_user = [];
   user: any;
   id_user: any;
   coins = '0';
@@ -28,12 +30,14 @@ export class LojaPage implements OnInit {
               public usersService: UsersService,
               public localStorageService: LocalStorageService,
               private ionAlertService: IonAlertService,
-              private ionToastService: IonToastService) { }
+              private ionToastService: IonToastService,
+              public inventarioService: InventarioService) { }
 
   ngOnInit() {
 
     this.id_user = this.localStorageService.getUserInfo();
 
+    this.loadItensInventario();
     this.loadUserInfo();
     this.loadItens();
   }
@@ -41,6 +45,21 @@ export class LojaPage implements OnInit {
   loadItens() {
     this.lojaService.getItens().subscribe((response) => {
       this.itens = response.data;
+      for (let i = 0; i < this.itens.length; i++) {
+        if(this.itens_user.findIndex(x => x.item.id_item == this.itens[i].id_item)!= -1){
+          this.itens[i].comprado = true;
+        }else{
+          this.itens[i].comprado = false;
+        }
+      }
+      console.log(this.itens);
+    });
+  }
+
+  loadItensInventario() {
+    this.inventarioService.getItensInventario().subscribe((response) => {
+      this.itens_user = response.data;
+      console.log(this.itens_user);
     });
   }
 

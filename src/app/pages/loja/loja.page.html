@@ -22,7 +22,7 @@
             <ion-card-subtitle>{{item.tipo}}</ion-card-subtitle>
             <ion-card-title><img src={{item.asset}} alt="Avatar" class="avatar" /></ion-card-title>
           </ion-card-header>
-          <ion-chip (click)="(compraItem(item.id_item, item.preco))" class="buy" color="secondary">
+          <ion-chip *ngIf="item.comprado == false" (click)="(compraItem(item.id_item, item.preco))" class="buy" color="secondary">
             <ion-icon name="cart-outline"></ion-icon>
             <ion-label>{{item.preco}} coins</ion-label>
           </ion-chip>
