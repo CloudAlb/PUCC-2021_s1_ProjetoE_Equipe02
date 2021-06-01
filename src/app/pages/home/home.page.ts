@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
   publications = [];
   publicationsBkp = [];
   itemsPage: any = [];
-  private readonly offset: number = 9;
+  private readonly offset: number = 4;
   private index: number = 0;
 
   private name = '';
@@ -28,18 +28,11 @@ export class HomePage implements OnInit {
 
   public searchText;
 
-  constructor(
-    public homeService: HomeService,
-    public localStorageService: LocalStorageService,
-    public alertController: AlertController,
-    public sessionManagerService: SessionManagerService
-  ) {
-    this.itemsPage = this.publications.slice(
-      this.index,
-      this.offset + this.index
-    );
-    this.index += this.offset;
-  }
+  constructor(public homeService: HomeService,
+              public localStorageService: LocalStorageService,
+              public alertController: AlertController,
+              public sessionManagerService: SessionManagerService)
+  {}
 
   ngOnInit() {
     this.loadPublications();
@@ -48,12 +41,17 @@ export class HomePage implements OnInit {
     this.name = userInfo.name;
     this.username = userInfo.username;
     if (userInfo.avatar_image) this.avatar_image = userInfo.avatar_image;
-    this.verifyNewPubs();
+    // this.verifyNewPubs();
   }
 
   loadPublications() {
     this.homeService.getPublications().subscribe((response) => {
       this.publications = response.data;
+      this.itemsPage = this.publications.slice(
+        this.index,
+        this.offset + this.index
+      );
+      this.index += this.offset;
       this.publicationsBkp = response.data;
     });
   }
