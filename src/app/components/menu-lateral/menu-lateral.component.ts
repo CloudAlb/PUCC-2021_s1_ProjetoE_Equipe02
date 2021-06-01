@@ -1,5 +1,6 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core';
 import { SessionsService } from 'src/app/services/sessions.service';
+import { SeuPerfilService } from 'src/app/services/seu-perfil.service';
 
 @Component({
   selector: 'app-menu-lateral',
@@ -17,7 +18,8 @@ export class MenuLateralComponent implements OnInit {
   @Input('contentId') public contentId: string;
   @Input('side') public side: string;
 
-  constructor(private sessionsService: SessionsService) {}
+  constructor(private sessionsService: SessionsService,
+              public seuPerfilService: SeuPerfilService) {}
 
   ngOnInit() {
     this.id_user = '';
@@ -41,16 +43,23 @@ export class MenuLateralComponent implements OnInit {
   }
 
   loadUserInfo() {
+
     const { name, username, avatar_image, id_user } =
       this.sessionsService.getUserData();
 
     this.id_user = id_user;
     this.name = name;
     this.username = username;
-    console.log(avatar_image);
-    if (avatar_image) this.avatarPath = avatar_image;
 
     if(id_user != null){
+      this.seuPerfilService
+      .getUser(this.id_user)
+      .subscribe((response) => {
+        if (!response.data) return;
+
+        if (response.data.avatar_image)
+          this.avatarPath = response.data.avatar_image;
+      });
       this.appPages = [
         { title: 'Home', url: 'home', icon: 'home' },
         { title: 'Seu perfil', url: '/profile/' + this.id_user, icon: 'person' },
@@ -58,7 +67,7 @@ export class MenuLateralComponent implements OnInit {
         { title: 'Torneios', url: 'tournament-home', icon: 'trophy' },
         { title: 'Loja', url: 'loja', icon: 'bag' },
         { title: 'Inventário', url: 'inventario', icon: 'archive' },
-        { title: 'Login', url: '/login', icon: 'add' },
+        // { title: 'Login', url: '/login', icon: 'add' },
         // { title: 'Cadastro', url: '/cadastro', icon: 'add' },
         { title: 'Logout', url: '/logout', icon: 'log-out' },
       ];

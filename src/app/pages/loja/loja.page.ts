@@ -45,6 +45,7 @@ export class LojaPage implements OnInit {
   loadItens() {
     this.lojaService.getItens().subscribe((response) => {
       this.itens = response.data;
+
       for (let i = 0; i < this.itens.length; i++) {
         if(this.itens_user.findIndex(x => x.item.id_item == this.itens[i].id_item)!= -1){
           this.itens[i].comprado = true;
