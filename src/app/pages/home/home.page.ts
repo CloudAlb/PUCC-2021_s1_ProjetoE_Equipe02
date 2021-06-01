@@ -18,8 +18,8 @@ export class HomePage implements OnInit {
 
   publications = [];
   publicationsBkp = [];
-  itemsPage: any = [];
-  private readonly offset: number = 4;
+  itensPage: any = [];
+  private readonly offset: number = 5;
   private index: number = 0;
 
   private name = '';
@@ -47,7 +47,7 @@ export class HomePage implements OnInit {
   loadPublications() {
     this.homeService.getPublications().subscribe((response) => {
       this.publications = response.data;
-      this.itemsPage = this.publications.slice(
+      this.itensPage = this.publications.slice(
         this.index,
         this.offset + this.index
       );
@@ -62,12 +62,12 @@ export class HomePage implements OnInit {
       this.index += this.offset;
 
       for (let i = 0; i < news.length; i++) {
-        this.itemsPage.push(news[i]);
+        this.itensPage.push(news[i]);
       }
 
       event.target.complete();
 
-      if (this.itemsPage.length == 100) {
+      if (this.itensPage.length == 100) {
         event.target.disabled = true;
       }
     }, 1200);
